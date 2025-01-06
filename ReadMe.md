@@ -69,12 +69,12 @@ export default MyComponent;
 
 ### Methods
 
-| Method            | Description                                      |
-|-------------------|--------------------------------------------------|
-| `isValidNumber`   | `(value: string) => boolean`                    |
-| `onChangeText`    | `(value: string) => void`                       |
-| `defaultCountry`  | `(code: CountryCode) => void`                   |
-| `defaultValue`    | `(text: string) => void`                        |
+| Method            | Type                            | Description                                      |
+|-------------------|---------------------------------|------------------------------------------------|
+| `isValidNumber`   | `(value: string) => boolean`   | Validates if the given phone number is valid.  |
+| `onChangeText`    | `(value: string) => void`      | Updates the text value of the input.           |
+| `defaultCountry`  | `(code: CountryCode) => void`  | Sets the default country code.                 |
+| `defaultValue`    | `(text: string) => void`       | Sets the default text value for the input.     |
 
 ## License
 
