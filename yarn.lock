@@ -11194,9 +11194,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rn-phone-input-2-example@workspace:example":
+"phone-input-rn-example@workspace:example":
   version: 0.0.0-use.local
-  resolution: "rn-phone-input-2-example@workspace:example"
+  resolution: "phone-input-rn-example@workspace:example"
   dependencies:
     "@babel/core": ^7.25.2
     "@babel/preset-env": ^7.25.3
@@ -11213,9 +11213,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rn-phone-input-2@workspace:.":
+"phone-input-rn@workspace:.":
   version: 0.0.0-use.local
-  resolution: "rn-phone-input-2@workspace:."
+  resolution: "phone-input-rn@workspace:."
   dependencies:
     "@commitlint/config-conventional": ^17.0.2
     "@evilmartians/lefthook": ^1.5.0

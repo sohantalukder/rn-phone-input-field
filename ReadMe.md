@@ -1,25 +1,25 @@
-# rn-phone-input-2
+# phone-input-rn
 
-`rn-phone-input-2` is a React Native component for a customizable phone number input with country code selection and validation.
+`phone-input-rn` is a React Native component for a customizable phone number input with country code selection and validation.
 
 ## Description
 
-`rn-phone-input-2` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It supports automatic country code detection, customizable styles, and additional features to ensure seamless integration into your project.
+`phone-input-rn` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It supports automatic country code detection, customizable styles, and additional features to ensure seamless integration into your project.
 
 ## Installation
 
-You can install `rn-phone-input-2` using either npm or yarn:
+You can install `phone-input-rn` using either npm or yarn:
 
 ### Using npm:
 
 ```bash
-npm install rn-phone-input-2
+npm install phone-input-rn
 ```
 
 ### Using yarn:
 
 ```bash
-yarn add rn-phone-input-2
+yarn add phone-input-rn
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ Here's an example of how to use the `RNPhoneInput` component:
 ```javascript
 import React from 'react';
 import { View } from 'react-native';
-import RNPhoneInput from 'rn-phone-input-2';
+import RNPhoneInput from 'phone-input-rn';
 
 const MyComponent = () => {
   return (
