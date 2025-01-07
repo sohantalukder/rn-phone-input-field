@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Styles from './styles.d';
 const styles: Styles = StyleSheet.create({
   container: {
@@ -12,11 +12,11 @@ const styles: Styles = StyleSheet.create({
     paddingHorizontal: 22,
     flexShrink: 1,
   },
-  flexRow: {flexDirection: 'row', alignItems: 'center', gap: 8},
-  gap10: {gap: 10},
-  ft28: {fontSize: 28},
-  ft16: {fontSize: 16, color: 'black'},
-  width75: {width: '75%'},
+  flexRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  gap10: { gap: 10 },
+  ft28: { fontSize: 28 },
+  ft16: { fontSize: 16, color: 'black' },
+  width75: { width: '75%' },
 });
 
 export default styles;

@@ -6,18 +6,15 @@ import {
   Image,
   useColorScheme,
 } from 'react-native';
-import  {forwardRef, useImperativeHandle, useState} from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import constants from './lib/constants/constants';
 import Picker from './lib/country-picker/Picker';
 import assets from './lib/assets/assets';
 import styles from './styles';
 import type { RNPhoneInputProps, RNPhoneInputRef } from './index.d';
-import type {CountryCode, EachCountry} from './lib/constants/types';
+import type { CountryCode, EachCountry } from './lib/constants/types';
 
-const RNPhoneInput = forwardRef<
-  RNPhoneInputRef,
-  RNPhoneInputProps
->(
+const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
   (
     {
       downArrowIcon,
@@ -33,17 +30,17 @@ const RNPhoneInput = forwardRef<
       codeTextStyle,
       iconContainerStyle,
     },
-    ref,
+    ref
   ) => {
     const [country, setCountry] = useState<EachCountry>(
-      constants[defaultCountry || 'BD'],
+      constants[defaultCountry || 'BD']
     );
     const [value, setValue] = useState<string>(defaultValue || '');
     const scheme = useColorScheme();
     const openBottomSheet = () => {
       global.openCountryModal({
         component: Picker as any,
-        componentProps: {onSelect: onSelect},
+        componentProps: { onSelect: onSelect },
       });
     };
     useImperativeHandle(ref, () => ({
@@ -77,7 +74,8 @@ const RNPhoneInput = forwardRef<
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={openBottomSheet}
-          style={[styles.flexRow, iconContainerStyle]}>
+          style={[styles.flexRow, iconContainerStyle]}
+        >
           <Text style={styles.ft28}>{country.icon}</Text>
           {downArrowIcon && (
             <Image
@@ -110,7 +108,7 @@ const RNPhoneInput = forwardRef<
         </View>
       </View>
     );
-  },
+  }
 );
-export type {RNPhoneInputProps, RNPhoneInputRef, CountryCode};
+export type { RNPhoneInputProps, RNPhoneInputRef, CountryCode };
 export default RNPhoneInput;

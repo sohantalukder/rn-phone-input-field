@@ -5,7 +5,7 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import {CountryCode, EachCountry} from './lib/constants/types';
+import { CountryCode, EachCountry } from './lib/constants/types';
 
 /**
  * Props for the RNPhoneInput component.
@@ -52,7 +52,7 @@ interface RNPhoneInputProps {
    * @param value - The selected country's details excluding `countryCode` and `callingCode`.
    */
   onSelectCountryCode?: (
-    value: Omit<EachCountry, 'countryCode' | 'callingCode'>,
+    value: Omit<EachCountry, 'countryCode' | 'callingCode'>
   ) => void;
 
   /**
@@ -105,4 +105,4 @@ interface RNPhoneInputRef {
    */
   defaultValue?: (text: string) => void;
 }
-export type {RNPhoneInputProps,RNPhoneInputRef};
+export type { RNPhoneInputProps, RNPhoneInputRef };
