@@ -7,13 +7,13 @@ import {
   useColorScheme,
 } from 'react-native';
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import constants from './lib/constants/constants';
-import Picker from './lib/country-picker/Picker';
-import assets from './lib/assets/assets';
+import constants from './main/constants/constants';
+import Picker from './main/country-picker/Picker';
+import assets from './main/assets/assets';
 import styles from './styles';
 import type { RNPhoneInputProps, RNPhoneInputRef } from './index.d';
-import type { CountryCode, EachCountry } from './lib/constants/constants.d';
-import CountryPickerModal from './lib/country-picker/CountryPickerModal';
+import type { CountryCode, EachCountry } from './main/constants/constants.d';
+import CountryPickerModal from './main/country-picker/CountryPickerModal';
 
 declare global {
   namespace NodeJS {
