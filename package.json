@@ -1,6 +1,6 @@
 {
-  "name": "rn-phone-input",
-  "version": "0.1.0",
+  "name": "rn-phone-input-2",
+  "version": "0.1.2",
   "description": "A React Native phone number input component built from scratch, featuring a text input for number entry, a custom dropdown for selecting country codes, and validation logic using regex or country-specific rules. It supports formatting, localization, and styling, ensuring a seamless and accessible user experience without relying on external libraries.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -37,7 +37,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace rn-phone-input-example",
+    "example": "yarn workspace rn-phone-input-2-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -48,18 +48,25 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "phone",
+    "input",
+    "dropdown",
+    "phone-number-input",
+    "phone-number-dropdown",
+    "react-native-phone-input",
+    "react-native-phone-number-input"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sohantalukder/rn-phone-input.git"
+    "url": "git+https://github.com/sohantalukder/rn-phone-input-2.git"
   },
   "author": "Md. Sohan Talukder <mdtalukder.sohan@gmail.com> (https://github.com/sohantalukder)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sohantalukder/rn-phone-input/issues"
+    "url": "https://github.com/sohantalukder/rn-phone-input-2/issues"
   },
-  "homepage": "https://github.com/sohantalukder/rn-phone-input#readme",
+  "homepage": "https://github.com/sohantalukder/rn-phone-input-2#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

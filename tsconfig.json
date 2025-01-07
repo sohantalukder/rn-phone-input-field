@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "rn-phone-input": ["./src/index"]
+      "rn-phone-input-2": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
