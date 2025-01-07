@@ -7,13 +7,13 @@ import {
   Image,
   useColorScheme,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import constants from '../constants/constants';
 import { customBorder, pickerStyles } from './styles/picker.style';
 import assets from '../assets/assets';
-import type { EachOptionProps, PickerProps } from './Picker';
+import type { EachOptionProps, PickerProps } from './Picker.d';
 
-const EachOption: React.FC<EachOptionProps> = ({onSelect, item, index}) => {
+const EachOption: React.FC<EachOptionProps> = ({ onSelect, item, index }) => {
   const [select, setSelect] = useState(false);
   const scheme = useColorScheme();
   const styles = pickerStyles(scheme);
@@ -26,7 +26,8 @@ const EachOption: React.FC<EachOptionProps> = ({onSelect, item, index}) => {
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      style={[styles.eachContainer, customBorder(index, scheme).border]}>
+      style={[styles.eachContainer, customBorder(index, scheme).border]}
+    >
       <Text style={styles.eachTextContainer}>
         <Text style={styles.eachText}>{item?.icon}</Text>
         {'  '}
@@ -37,7 +38,7 @@ const EachOption: React.FC<EachOptionProps> = ({onSelect, item, index}) => {
   );
 };
 
-const Picker: React.FC<PickerProps> = ({onSelect}) => {
+const Picker: React.FC<PickerProps> = ({ onSelect }) => {
   const scheme = useColorScheme();
   const styles = pickerStyles(scheme);
   const [country, setCountry] = useState(Object.values(constants));
@@ -46,8 +47,8 @@ const Picker: React.FC<PickerProps> = ({onSelect}) => {
       setCountry(Object.values(constants));
       return;
     }
-    const filers = Object.values(constants).filter(item =>
-      item.countryName?.toLowerCase().match(new RegExp(text.toLowerCase())),
+    const filers = Object.values(constants).filter((item) =>
+      item.countryName?.toLowerCase().match(new RegExp(text.toLowerCase()))
     );
     setCountry(filers);
   };
@@ -86,7 +87,7 @@ const Picker: React.FC<PickerProps> = ({onSelect}) => {
         keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={styles.flatListContainer}
         initialNumToRender={12}
-        renderItem={({item, index}: {item: any; index: number}) => {
+        renderItem={({ item, index }: { item: any; index: number }) => {
           return (
             <EachOption
               onSelect={onSelect}

@@ -1,4 +1,4 @@
-import type {Assets} from './assets';
+import type { Assets } from './assets.d';
 
 const assets: Assets = {
   closeDefaultIcon:
