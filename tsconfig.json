@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "phone-input-rn": ["./src/index"]
+      "react-native-phonefield": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
