@@ -12,8 +12,16 @@ import Picker from './lib/country-picker/Picker';
 import assets from './lib/assets/assets';
 import styles from './styles';
 import type { RNPhoneInputProps, RNPhoneInputRef } from './index.d';
-import type { CountryCode, EachCountry } from './lib/constants/types';
+import type { CountryCode, EachCountry } from './lib/constants/constants.d';
+import CountryPickerModal from './lib/country-picker/CountryPickerModal';
 
+declare global {
+  namespace NodeJS {
+    interface Global {
+      openCountryModal: () => void;
+    }
+  }
+}
 const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
   (
     {
@@ -39,7 +47,7 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
     const scheme = useColorScheme();
     const openBottomSheet = () => {
       global.openCountryModal({
-        component: Picker as any,
+        component: Picker as unknown as unknown as React.FC,
         componentProps: { onSelect: onSelect },
       });
     };
@@ -65,48 +73,50 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
       onSelectCountryCode && onSelectCountryCode(item);
     };
     const handleChangeText = (text: string) => {
-      console.log(text, text.match(new RegExp(country.regex)));
       setValue(text);
       onChangeText && onChangeText(text);
     };
     return (
-      <View style={[styles.container, containerStyle]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={openBottomSheet}
-          style={[styles.flexRow, iconContainerStyle]}
-        >
-          <Text style={styles.ft28}>{country.icon}</Text>
-          {downArrowIcon && (
-            <Image
-              source={{
-                uri:
-                  scheme !== 'dark'
-                    ? assets.downArrowDarkIcon
-                    : assets.downArrowDefaultIcon,
-              }}
-              resizeMode="contain"
-              height={10}
-              width={10}
+      <>
+        <View style={[styles.container, containerStyle]}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={openBottomSheet}
+            style={[styles.flexRow, iconContainerStyle]}
+          >
+            <Text style={styles.ft28}>{country.icon}</Text>
+            {downArrowIcon && (
+              <Image
+                source={{
+                  uri:
+                    scheme !== 'dark'
+                      ? assets.downArrowDarkIcon
+                      : assets.downArrowDefaultIcon,
+                }}
+                resizeMode="contain"
+                height={10}
+                width={10}
+              />
+            )}
+          </TouchableOpacity>
+          <View style={[styles.flexRow, styles.gap10]}>
+            <Text style={[styles.ft16, codeTextStyle]}>
+              +{country.callingCode}
+            </Text>
+            <TextInput
+              style={[styles.width75, styles.ft16, textInputStyle]}
+              placeholder={placeholder || 'Phone Number'}
+              numberOfLines={1}
+              defaultValue={value}
+              placeholderTextColor={placeholderColor}
+              onChangeText={handleChangeText}
+              inputMode="numeric"
+              {...inputProps}
             />
-          )}
-        </TouchableOpacity>
-        <View style={[styles.flexRow, styles.gap10]}>
-          <Text style={[styles.ft16, codeTextStyle]}>
-            +{country.callingCode}
-          </Text>
-          <TextInput
-            style={[styles.width75, styles.ft16, textInputStyle]}
-            placeholder={placeholder || 'Phone Number'}
-            numberOfLines={1}
-            defaultValue={value}
-            placeholderTextColor={placeholderColor}
-            onChangeText={handleChangeText}
-            inputMode="numeric"
-            {...inputProps}
-          />
+          </View>
         </View>
-      </View>
+        <CountryPickerModal />
+      </>
     );
   }
 );

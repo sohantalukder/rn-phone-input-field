@@ -1,4 +1,4 @@
-import { DimensionValue } from 'react-native';
+import type { DimensionValue } from 'react-native';
 
 type ContainerStyle = {
   flexDirection: 'row';

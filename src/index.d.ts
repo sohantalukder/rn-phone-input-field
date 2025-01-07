@@ -1,11 +1,11 @@
-import {
+import type {
   ColorValue,
   StyleProp,
   TextInputProps,
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import { CountryCode, EachCountry } from './lib/constants/types';
+import type { CountryCode, EachCountry } from './lib/constants/constants.d';
 
 /**
  * Props for the RNPhoneInput component.
