@@ -1,25 +1,25 @@
-# react-native-phonefield
+# rn-phone-input-field
 
-`react-native-phonefield` is a React Native component for a customizable phone number input with country code selection and validation.
+`rn-phone-input-field` is a React Native component for a customizable phone number input with country code selection and validation.
 
 ## Description
 
-`react-native-phonefield` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It supports automatic country code detection, customizable styles, and additional features to ensure seamless integration into your project.
+`rn-phone-input-field` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It supports automatic country code detection, customizable styles, and additional features to ensure seamless integration into your project.
 
 ## Installation
 
-You can install `react-native-phonefield` using either npm or yarn:
+You can install `rn-phone-input-field` using either npm or yarn:
 
 ### Using npm:
 
 ```bash
-npm install react-native-phonefield
+npm install rn-phone-input-field
 ```
 
 ### Using yarn:
 
 ```bash
-yarn add react-native-phonefield
+yarn add rn-phone-input-field
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ Here's an example of how to use the `RNPhoneInput` component:
 ```javascript
 import React from 'react';
 import { View } from 'react-native';
-import RNPhoneInput from 'react-native-phonefield';
+import RNPhoneInput from 'rn-phone-input-field';
 
 const MyComponent = () => {
   return (

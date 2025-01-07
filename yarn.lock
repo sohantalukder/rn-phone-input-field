@@ -11194,9 +11194,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-phonefield-example@workspace:example":
+"rn-phone-input-field-example@workspace:example":
   version: 0.0.0-use.local
-  resolution: "react-native-phonefield-example@workspace:example"
+  resolution: "rn-phone-input-field-example@workspace:example"
   dependencies:
     "@babel/core": ^7.25.2
     "@babel/preset-env": ^7.25.3
@@ -11213,9 +11213,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-native-phonefield@workspace:.":
+"rn-phone-input-field@workspace:.":
   version: 0.0.0-use.local
-  resolution: "react-native-phonefield@workspace:."
+  resolution: "rn-phone-input-field@workspace:."
   dependencies:
     "@commitlint/config-conventional": ^17.0.2
     "@evilmartians/lefthook": ^1.5.0

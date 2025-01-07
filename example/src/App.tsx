@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import RNPhoneInput from 'react-native-phonefield';
+import RNPhoneInput from 'rn-phone-input-field';
 
 const App: React.FC = () => {
   return (

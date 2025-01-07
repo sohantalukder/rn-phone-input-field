@@ -1,5 +1,5 @@
 {
-  "name": "react-native-phonefield",
+  "name": "rn-phone-input-field",
   "version": "0.1.2",
   "description": "A React Native phone number input component built from scratch, featuring a text input for number entry, a custom dropdown for selecting country codes, and validation logic using regex or country-specific rules. It supports formatting, localization, and styling, ensuring a seamless and accessible user experience without relying on external libraries.",
   "source": "./src/index.tsx",
@@ -37,7 +37,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-phonefield-example",
+    "example": "yarn workspace rn-phone-input-field-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -59,14 +59,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sohantalukder/react-native-phonefield.git"
+    "url": "git+https://github.com/sohantalukder/rn-phone-input-field.git"
   },
   "author": "Md. Sohan Talukder <mdtalukder.sohan@gmail.com> (https://github.com/sohantalukder)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sohantalukder/react-native-phonefield/issues"
+    "url": "https://github.com/sohantalukder/rn-phone-input-field/issues"
   },
-  "homepage": "https://github.com/sohantalukder/react-native-phonefield#readme",
+  "homepage": "https://github.com/sohantalukder/rn-phone-input-field#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
