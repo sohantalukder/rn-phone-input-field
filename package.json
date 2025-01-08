@@ -1,6 +1,6 @@
 {
   "name": "rn-phone-input-field",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A React Native phone number input component built from scratch, featuring a text input for number entry, a custom dropdown for selecting country codes, and validation logic using regex or country-specific rules. It supports formatting, localization, and styling, ensuring a seamless and accessible user experience without relying on external libraries.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
