@@ -1,5 +1,7 @@
 # rn-phone-input-field
 
+![iPhone 16 Pro Simulator Recording Jan 8 2025](https://github.com/user-attachments/assets/db697376-9628-44b9-ba7d-fc0f74e96bd1)
+
 `rn-phone-input-field` is a powerful and fully customizable React Native component designed for seamless phone number input, complete with a built-in country code selector and validation capabilities. It offers developers the flexibility to tailor every aspect of the component through an extensive range of props, making it adaptable to a wide variety of design and functional requirements.  
 
 One of its standout features is that it is implemented **without any dependencies**, ensuring a lightweight and performance-focused solution. This approach minimizes package bloat and allows for smooth integration into projects of any size.
