@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   Image,
-  useColorScheme,
 } from 'react-native';
 import React, { useState } from 'react';
 import constants from '../constants/constants';
@@ -13,20 +12,25 @@ import { customBorder, pickerStyles } from './styles/picker.style';
 import assets from '../assets/assets';
 import type { EachOptionProps, PickerProps } from './Picker.d';
 
-const EachOption: React.FC<EachOptionProps> = ({ onSelect, item, index }) => {
+const EachOption: React.FC<EachOptionProps> = ({
+  onSelect,
+  item,
+  index,
+  darkMode,
+  closeModal,
+}) => {
   const [select, setSelect] = useState(false);
-  const scheme = useColorScheme();
-  const styles = pickerStyles(scheme);
+  const styles = pickerStyles(darkMode);
   const onPress = () => {
     setSelect(!select);
     onSelect && onSelect(item);
-    global.openCountryModal({});
+    closeModal();
   };
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      style={[styles.eachContainer, customBorder(index, scheme).border]}
+      style={[styles.eachContainer, customBorder(index, darkMode).border]}
     >
       <Text style={styles.eachTextContainer}>
         <Text style={styles.eachText}>{item?.icon}</Text>
@@ -38,9 +42,8 @@ const EachOption: React.FC<EachOptionProps> = ({ onSelect, item, index }) => {
   );
 };
 
-const Picker: React.FC<PickerProps> = ({ onSelect }) => {
-  const scheme = useColorScheme();
-  const styles = pickerStyles(scheme);
+const Picker: React.FC<PickerProps> = ({ onSelect, darkMode, closeModal }) => {
+  const styles = pickerStyles(darkMode);
   const [country, setCountry] = useState(Object.values(constants));
   const handleChangeText = (text: string) => {
     if (text === '') {
@@ -58,14 +61,11 @@ const Picker: React.FC<PickerProps> = ({ onSelect }) => {
       <View style={styles.flexRow}>
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => global.openCountryModal({})}
+          onPress={closeModal}
           children={
             <Image
               source={{
-                uri:
-                  scheme === 'dark'
-                    ? assets.closeDarkIcon
-                    : assets.closeDefaultIcon,
+                uri: darkMode ? assets.closeDarkIcon : assets.closeDefaultIcon,
               }}
               resizeMode="contain"
               height={12}
@@ -76,6 +76,7 @@ const Picker: React.FC<PickerProps> = ({ onSelect }) => {
         <TextInput
           placeholder="Search Country"
           onChangeText={handleChangeText}
+          placeholderTextColor={darkMode ? '#FFFFFF' : '#000000'}
           style={styles.searchInput}
         />
       </View>
@@ -92,8 +93,10 @@ const Picker: React.FC<PickerProps> = ({ onSelect }) => {
             <EachOption
               onSelect={onSelect}
               item={item}
+              darkMode={darkMode}
               index={index}
               key={index}
+              closeModal={closeModal}
             />
           );
         }}

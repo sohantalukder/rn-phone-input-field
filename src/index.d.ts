@@ -52,7 +52,7 @@ interface RNPhoneInputProps {
    * @param value - The selected country's details excluding `countryCode` and `callingCode`.
    */
   onSelectCountryCode?: (
-    value: Omit<EachCountry, 'countryCode' | 'callingCode'>
+    value: Omit<EachCountry, 'icon' | 'countryName' | 'regex'>
   ) => void;
 
   /**
@@ -74,6 +74,10 @@ interface RNPhoneInputProps {
    * Custom style for the text displaying the country code.
    */
   codeTextStyle?: StyleProp<TextStyle>;
+  /**
+   * Determines whether the component should use dark mode.
+   */
+  darkMode?: boolean;
 }
 
 /**

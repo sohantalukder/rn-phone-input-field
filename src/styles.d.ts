@@ -35,14 +35,14 @@ type WidthStyle = {
   width: DimensionValue;
 };
 
-interface Styles {
+type Styles = (isDark: boolean) => {
   container: ContainerStyle;
   flexRow: FlexRowStyle;
   gap10: GapStyle;
   ft28: FontSize28Style;
   ft16: FontSize16Style;
   width75: WidthStyle;
-}
+};
 
 declare const Styles: Styles;
 

@@ -1,10 +1,21 @@
 # rn-phone-input-field
 
-`rn-phone-input-field` is a React Native component for a customizable phone number input with country code selection and validation.
+`rn-phone-input-field` is a powerful and fully customizable React Native component designed for seamless phone number input, complete with a built-in country code selector and validation capabilities. It offers developers the flexibility to tailor every aspect of the component through an extensive range of props, making it adaptable to a wide variety of design and functional requirements.  
+
+One of its standout features is that it is implemented **without any dependencies**, ensuring a lightweight and performance-focused solution. This approach minimizes package bloat and allows for smooth integration into projects of any size.
 
 ## Description
 
-`rn-phone-input-field` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It supports automatic country code detection, customizable styles, and additional features to ensure seamless integration into your project.
+`rn-phone-input-field` provides an intuitive and user-friendly way to input and validate phone numbers in React Native applications. It is designed to streamline the user experience with features like automatic country code detection, validation, and a customizable UI that fits seamlessly into any design system.  
+
+This component offers:  
+- **Automatic Country Code Detection**: Easily identifies the user's country code for a smooth experience.  
+- **Full Customization**: Modify styles, behavior, and features through props to match your application's requirements.  
+- **Validation Built-In**: Ensures the phone number format adheres to the selected country’s standards.  
+
+One of its key advantages is that it is built **without any dependencies**, making it lightweight and ensuring no additional bloat in your project.  
+
+With `rn-phone-input-field`, developers can effortlessly integrate a flexible, performant, and feature-rich phone number input field into their applications, improving both functionality and user experience.
 
 ## Installation
 

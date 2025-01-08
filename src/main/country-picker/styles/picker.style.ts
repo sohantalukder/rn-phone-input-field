@@ -1,7 +1,6 @@
-import { type ColorSchemeName, Dimensions, StyleSheet } from 'react-native';
-const { height } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
 
-const pickerStyles = (scheme: ColorSchemeName) =>
+const pickerStyles = (isDark: boolean) =>
   StyleSheet.create({
     eachContainer: {
       flexDirection: 'row',
@@ -10,21 +9,14 @@ const pickerStyles = (scheme: ColorSchemeName) =>
       alignItems: 'center',
     },
     eachTextContainer: {
-      color: scheme === 'dark' ? '#F8F8F8' : '#1B1D20',
+      color: isDark ? '#F8F8F8' : '#1B1D20',
       fontSize: 18,
     },
     eachText: { fontSize: 22, lineHeight: 0 },
     searchInput: {
       flexGrow: 1,
       fontSize: 16,
-      color: scheme !== 'dark' ? 'black' : 'white',
-    },
-    container: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: height - 64,
+      color: isDark ? '#FFFFFF' : '#000000',
     },
     flatListContainer: {
       paddingTop: 8,
@@ -32,7 +24,7 @@ const pickerStyles = (scheme: ColorSchemeName) =>
     },
     bgWhite: {
       flex: 1,
-      backgroundColor: scheme === 'dark' ? 'black' : '#FAFAFB',
+      backgroundColor: isDark ? '#000000' : '#FFFFFF',
     },
     flexRow: {
       flexDirection: 'row',
@@ -50,7 +42,7 @@ const pickerStyles = (scheme: ColorSchemeName) =>
     },
   });
 
-const customBorder = (index: number, scheme: ColorSchemeName) =>
+const customBorder = (index: number, isDark: boolean) =>
   StyleSheet.create({
     border: {
       paddingTop: index === 0 ? 0 : 16,
@@ -59,10 +51,15 @@ const customBorder = (index: number, scheme: ColorSchemeName) =>
       paddingLeft: 20,
       borderTopWidth: index === 0 ? 0 : 1,
       borderTopColor:
-        index === 0
-          ? ''
-          : `rgba(${scheme === 'dark' ? '255,255,255' : '0,0,0'},0.2)`,
+        index === 0 ? '' : `rgba(${isDark ? '255,255,255' : '0,0,0'},0.2)`,
     },
   });
 
-export { pickerStyles, customBorder };
+const countryPickerStyles = StyleSheet.create({
+  flex: { flex: 1 },
+  mb40: {
+    marginBottom: -40,
+  },
+});
+
+export { pickerStyles, countryPickerStyles, customBorder };

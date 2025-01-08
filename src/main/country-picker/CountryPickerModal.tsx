@@ -1,60 +1,77 @@
-import React, { useRef, useState } from 'react';
-import { Animated, Dimensions, StatusBar, useColorScheme } from 'react-native';
-import { pickerStyles } from './styles/picker.style';
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import {
+  Animated,
+  Dimensions,
+  Modal,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
+import Picker from './Picker';
+import { type EachCountry } from '../constants/constants.d';
+import { type PickerOpenRef } from './Picker.d';
+import { countryPickerStyles } from './styles/picker.style';
 
 const { height } = Dimensions.get('window');
-interface props {
-  component?: React.FC;
-  componentProps?: any;
-}
-declare global {
-  var openCountryModal: (value: props) => void;
+const statusBarHeight = StatusBar.currentHeight || 0;
+interface Props {
+  darkMode: boolean;
+  onSelect: (value: EachCountry) => void;
 }
 
-const CountryPickerModal: React.FC = () => {
-  const scheme = useColorScheme();
-  const styles = pickerStyles(scheme);
-  const [isOpen, setIsOpen] = useState(false);
-  const animationValue = useState(new Animated.Value(height))[0];
-  const statusBarHeight = StatusBar.currentHeight || 0;
-  const componentRef = useRef<props | null>();
-  global.openCountryModal = ({ component = null, componentProps = null }) => {
-    toggleAnimation();
-    component
-      ? (componentRef.current = { component, componentProps })
-      : (componentRef.current = null);
-  };
+const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
+  ({ darkMode, onSelect }, ref) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const animationValue = useState(new Animated.Value(height))[0];
 
-  const toggleAnimation = () => {
-    if (isOpen) {
-      Animated.spring(animationValue, {
-        toValue: height,
-        friction: 8,
-        tension: 50,
-        useNativeDriver: true,
-      }).start(() => setIsOpen(false));
-    } else {
-      setIsOpen(true);
-      Animated.spring(animationValue, {
-        toValue: statusBarHeight,
-        friction: 8,
-        tension: 50,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
+    useImperativeHandle(ref, () => ({
+      openModal: () => {
+        toggleAnimation(true);
+        setIsOpen(true);
+      },
+    }));
+    const toggleAnimation = (open: boolean) => {
+      if (open) {
+        Animated.spring(animationValue, {
+          toValue: height, // Move modal out of view
+          friction: 8,
+          tension: 50,
+          useNativeDriver: true,
+        }).start();
+      } else {
+        Animated.spring(animationValue, {
+          toValue: statusBarHeight, // Start modal below the status bar
+          friction: 8,
+          tension: 50,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
 
-  const animatedStyle = {
-    transform: [{ translateY: animationValue }],
-  };
-  const Component = componentRef.current?.component;
-  return (
-    <Animated.View style={[styles.container, animatedStyle]}>
-      {Component && isOpen && (
-        <Component {...componentRef.current?.componentProps} />
-      )}
-    </Animated.View>
-  );
-};
+    const animatedStyle = {
+      transform: [{ translateY: animationValue }],
+    };
+    const closeModal = () => {
+      toggleAnimation(false);
+      setIsOpen(false);
+    };
+    return (
+      <Animated.View style={animatedStyle}>
+        {isOpen && (
+          <Modal visible={isOpen} transparent animationType="slide">
+            <SafeAreaView
+              style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
+            >
+              <Picker
+                onSelect={onSelect}
+                darkMode={darkMode}
+                closeModal={closeModal}
+              />
+            </SafeAreaView>
+          </Modal>
+        )}
+      </Animated.View>
+    );
+  }
+);
 
 export default CountryPickerModal;
