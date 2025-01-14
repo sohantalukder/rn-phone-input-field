@@ -33,6 +33,7 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
     );
     const openModalRef = useRef<PickerOpenRef>(null);
     const [value, setValue] = useState<string>(defaultValue || '');
+    const inputRef = useRef<TextInput>(null);
     const openBottomSheet = () => {
       openModalRef.current?.openModal();
     };
@@ -51,8 +52,9 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
         setValue(text);
       },
       onChangeText: (text: string) => {
-        setValue(text);
-        onChangeText && onChangeText(text);
+        if (inputRef.current) {
+          inputRef.current.setNativeProps({ text });
+        }
       },
     }));
     const onSelect = (item: EachCountry) => {
@@ -64,7 +66,7 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
         });
     };
     const handleChangeText = (text: string) => {
-      setValue(text);
+      inputRef.current?.setNativeProps({ text });
       onChangeText && onChangeText(text);
     };
     const style = styles(darkMode);
@@ -98,6 +100,7 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
               style={[style.width75, style.ft16, textInputStyle]}
               placeholder={placeholder || 'Phone Number'}
               numberOfLines={1}
+              ref={inputRef}
               defaultValue={value}
               placeholderTextColor={placeholderColor}
               onChangeText={handleChangeText}
