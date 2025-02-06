@@ -55,21 +55,24 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
       setIsOpen(false);
     };
     return (
-      <Animated.View style={animatedStyle}>
-        {isOpen && (
-          <Modal visible={isOpen} transparent animationType="slide">
-            <SafeAreaView
-              style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
-            >
-              <Picker
-                onSelect={onSelect}
-                darkMode={darkMode}
-                closeModal={closeModal}
-              />
-            </SafeAreaView>
-          </Modal>
-        )}
-      </Animated.View>
+      <>
+        <StatusBar barStyle={darkMode ? 'dark-content' : 'light-content'} />
+        <Animated.View style={animatedStyle}>
+          {isOpen && (
+            <Modal visible={isOpen} transparent animationType="slide">
+              <SafeAreaView
+                style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
+              >
+                <Picker
+                  onSelect={onSelect}
+                  darkMode={darkMode}
+                  closeModal={closeModal}
+                />
+              </SafeAreaView>
+            </Modal>
+          )}
+        </Animated.View>
+      </>
     );
   }
 );
