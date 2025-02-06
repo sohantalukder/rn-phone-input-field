@@ -56,7 +56,7 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
     };
     return (
       <>
-        <StatusBar barStyle={darkMode ? 'dark-content' : 'light-content'} />
+        <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
         <Animated.View style={animatedStyle}>
           {isOpen && (
             <Modal visible={isOpen} transparent animationType="slide">
