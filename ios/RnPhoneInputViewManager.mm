@@ -2,12 +2,12 @@
 #import <React/RCTUIManager.h>
 #import "RCTBridge.h"
 
-@interface RnPhoneInputViewManager : RCTViewManager
+@interface RnPhoneInputFieldViewManager : RCTViewManager
 @end
 
-@implementation RnPhoneInputViewManager
+@implementation RnPhoneInputFieldViewManager
 
-RCT_EXPORT_MODULE(RnPhoneInputView)
+RCT_EXPORT_MODULE(RnPhoneInputFieldView)
 
 - (UIView *)view
 {

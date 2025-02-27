@@ -1,4 +1,4 @@
-package com.rnphoneinput
+package com.rn-phone-input-field
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
@@ -6,10 +6,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 import java.util.ArrayList
 
-class RnPhoneInputViewPackage : ReactPackage {
+class RnPhoneInputFieldViewPackage : ReactPackage {
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
     val viewManagers: MutableList<ViewManager<*, *>> = ArrayList()
-    viewManagers.add(RnPhoneInputViewManager())
+    viewManagers.add(RnPhoneInputFieldViewManager())
     return viewManagers
   }
 

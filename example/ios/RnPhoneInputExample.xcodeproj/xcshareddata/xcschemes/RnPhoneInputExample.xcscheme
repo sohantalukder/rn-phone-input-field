@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "RnPhoneInputExample.app"
-               BlueprintName = "RnPhoneInputExample"
-               ReferencedContainer = "container:RnPhoneInputExample.xcodeproj">
+               BuildableName = "RnPhoneInputFieldExample.app"
+               BlueprintName = "RnPhoneInputFieldExample"
+               ReferencedContainer = "container:RnPhoneInputFieldExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "RnPhoneInputExampleTests.xctest"
-               BlueprintName = "RnPhoneInputExampleTests"
-               ReferencedContainer = "container:RnPhoneInputExample.xcodeproj">
+               BuildableName = "RnPhoneInputFieldExampleTests.xctest"
+               BlueprintName = "RnPhoneInputFieldExampleTests"
+               ReferencedContainer = "container:RnPhoneInputFieldExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "RnPhoneInputExample.app"
-            BlueprintName = "RnPhoneInputExample"
-            ReferencedContainer = "container:RnPhoneInputExample.xcodeproj">
+            BuildableName = "RnPhoneInputFieldExample.app"
+            BlueprintName = "RnPhoneInputFieldExample"
+            ReferencedContainer = "container:RnPhoneInputFieldExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "RnPhoneInputExample.app"
-            BlueprintName = "RnPhoneInputExample"
-            ReferencedContainer = "container:RnPhoneInputExample.xcodeproj">
+            BuildableName = "RnPhoneInputFieldExample.app"
+            BlueprintName = "RnPhoneInputFieldExample"
+            ReferencedContainer = "container:RnPhoneInputFieldExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

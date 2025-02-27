@@ -1,31 +1,31 @@
-#import "RnPhoneInputView.h"
+#import "RnPhoneInputFieldView.h"
 
-#import "generated/RNRnPhoneInputViewSpec/ComponentDescriptors.h"
-#import "generated/RNRnPhoneInputViewSpec/EventEmitters.h"
-#import "generated/RNRnPhoneInputViewSpec/Props.h"
-#import "generated/RNRnPhoneInputViewSpec/RCTComponentViewHelpers.h"
+#import "generated/RNRnPhoneInputFieldViewSpec/ComponentDescriptors.h"
+#import "generated/RNRnPhoneInputFieldViewSpec/EventEmitters.h"
+#import "generated/RNRnPhoneInputFieldViewSpec/Props.h"
+#import "generated/RNRnPhoneInputFieldViewSpec/RCTComponentViewHelpers.h"
 
 #import "RCTFabricComponentsPlugins.h"
 
 using namespace facebook::react;
 
-@interface RnPhoneInputView () <RCTRnPhoneInputViewViewProtocol>
+@interface RnPhoneInputFieldView () <RCTRnPhoneInputFieldViewViewProtocol>
 
 @end
 
-@implementation RnPhoneInputView {
+@implementation RnPhoneInputFieldView {
     UIView * _view;
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider
 {
-    return concreteComponentDescriptorProvider<RnPhoneInputViewComponentDescriptor>();
+    return concreteComponentDescriptorProvider<RnPhoneInputFieldViewComponentDescriptor>();
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if (self = [super initWithFrame:frame]) {
-    static const auto defaultProps = std::make_shared<const RnPhoneInputViewProps>();
+    static const auto defaultProps = std::make_shared<const RnPhoneInputFieldViewProps>();
     _props = defaultProps;
 
     _view = [[UIView alloc] init];
@@ -38,8 +38,8 @@ using namespace facebook::react;
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
 {
-    const auto &oldViewProps = *std::static_pointer_cast<RnPhoneInputViewProps const>(_props);
-    const auto &newViewProps = *std::static_pointer_cast<RnPhoneInputViewProps const>(props);
+    const auto &oldViewProps = *std::static_pointer_cast<RnPhoneInputFieldViewProps const>(_props);
+    const auto &newViewProps = *std::static_pointer_cast<RnPhoneInputFieldViewProps const>(props);
 
     if (oldViewProps.color != newViewProps.color) {
         NSString * colorToConvert = [[NSString alloc] initWithUTF8String: newViewProps.color.c_str()];
@@ -49,9 +49,9 @@ using namespace facebook::react;
     [super updateProps:props oldProps:oldProps];
 }
 
-Class<RCTComponentViewProtocol> RnPhoneInputViewCls(void)
+Class<RCTComponentViewProtocol> RnPhoneInputFieldViewCls(void)
 {
-    return RnPhoneInputView.class;
+    return RnPhoneInputFieldView.class;
 }
 
 - hexStringToColor:(NSString *)stringToConvert

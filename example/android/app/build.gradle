@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "rnphoneinput.example"
+    namespace "rn-phone-input-field.example"
     defaultConfig {
-        applicationId "rnphoneinput.example"
+        applicationId "rn-phone-input-field.example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -190,7 +190,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNRnPhoneInputViewSpec",
+    "name": "RNRnPhoneInputFieldViewSpec",
     "type": "all",
     "jsSrcsDir": "src",
     "outputDir": {
@@ -198,7 +198,7 @@
       "android": "android/generated"
     },
     "android": {
-      "javaPackageName": "com.rnphoneinput"
+      "javaPackageName": "com.rn-phone-input-field"
     },
     "includesGeneratedCode": true
   },

@@ -23,7 +23,7 @@ The [example app](/example/) demonstrates usage of the library. You need to run 
 
 It is configured to use the local version of the library, so any changes you make to the library's source code will be reflected in the example app. Changes to the library's JavaScript code will be reflected in the example app without a rebuild, but native code changes will require a rebuild of the example app.
 
-If you want to use Android Studio or XCode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/RnPhoneInputExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > rn-phone-input-field`.
+If you want to use Android Studio or XCode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/RnPhoneInputFieldExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > rn-phone-input-field`.
 
 To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `rn-phone-input-field` under `Android`.
 
@@ -50,7 +50,7 @@ yarn example ios
 To confirm that the app is running with the new architecture, you can check the Metro logs for a message like this:
 
 ```sh
-Running "RnPhoneInputExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
+Running "RnPhoneInputFieldExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
 ```
 
 Note the `"fabric":true` and `"concurrentRoot":true` properties.
