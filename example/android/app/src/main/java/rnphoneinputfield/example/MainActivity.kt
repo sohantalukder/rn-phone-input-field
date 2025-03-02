@@ -1,4 +1,4 @@
-package rn-phone-input-field.example
+package rnphoneinputfield.example
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
