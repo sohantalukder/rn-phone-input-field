@@ -5,9 +5,10 @@ import {
   Modal,
   SafeAreaView,
   StatusBar,
+  TextInputProps,
 } from 'react-native';
-import Picker from './Picker';
 import { type EachCountry } from '../constants/constants.d';
+import Picker from './Picker';
 import { type PickerOpenRef } from './Picker.d';
 import { countryPickerStyles } from './styles/picker.style';
 
@@ -16,10 +17,11 @@ const statusBarHeight = StatusBar.currentHeight || 0;
 interface Props {
   darkMode: boolean;
   onSelect: (value: EachCountry) => void;
+  searchInputProps?: TextInputProps;
 }
 
 const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
-  ({ darkMode, onSelect }, ref) => {
+  ({ darkMode, onSelect, searchInputProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const animationValue = useState(new Animated.Value(height))[0];
 
@@ -70,6 +72,7 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
                   onSelect={onSelect}
                   darkMode={darkMode}
                   closeModal={closeModal}
+                  searchInputProps={searchInputProps}
                 />
               </SafeAreaView>
             </Modal>

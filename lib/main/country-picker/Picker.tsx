@@ -1,16 +1,16 @@
+import React, { useState } from 'react';
 import {
-  Text,
   FlatList,
+  Image,
+  Text,
+  TextInput,
   TouchableOpacity,
   View,
-  TextInput,
-  Image,
 } from 'react-native';
-import React, { useState } from 'react';
-import constants from '../constants/constants';
-import { customBorder, pickerStyles } from './styles/picker.style';
 import assets from '../assets/assets';
+import constants from '../constants/constants';
 import type { EachOptionProps, PickerProps } from './Picker.d';
+import { customBorder, pickerStyles } from './styles/picker.style';
 
 const EachOption: React.FC<EachOptionProps> = ({
   onSelect,
@@ -42,7 +42,7 @@ const EachOption: React.FC<EachOptionProps> = ({
   );
 };
 
-const Picker: React.FC<PickerProps> = ({ onSelect, darkMode, closeModal }) => {
+const Picker: React.FC<PickerProps> = ({ onSelect, darkMode, closeModal, searchInputProps }) => {
   const styles = pickerStyles(darkMode);
   const [country, setCountry] = useState(Object.values(constants));
   const handleChangeText = (text: string) => {
@@ -78,6 +78,7 @@ const Picker: React.FC<PickerProps> = ({ onSelect, darkMode, closeModal }) => {
           onChangeText={handleChangeText}
           placeholderTextColor={darkMode ? '#FFFFFF' : '#000000'}
           style={styles.searchInput}
+          {...searchInputProps}
         />
       </View>
       <FlatList

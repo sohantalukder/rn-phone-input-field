@@ -1,9 +1,11 @@
+import type { TextInputProps } from 'react-native';
 import type { EachCountry } from '../constants/constants.d';
 
 interface PickerProps {
   onSelect: (value: EachCountry) => void;
   darkMode: boolean;
   closeModal: () => void;
+  searchInputProps?: TextInputProps;
 }
 
 interface EachOptionProps {
@@ -17,4 +19,5 @@ interface EachOptionProps {
 interface PickerOpenRef {
   openModal: () => void;
 }
-export type { PickerProps, PickerOpenRef, EachOptionProps };
+export type { EachOptionProps, PickerOpenRef, PickerProps };
+
