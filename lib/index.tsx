@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState, useCallback, useMemo } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { RNPhoneInputProps, RNPhoneInputRef } from './index.d';
 import assets from './main/assets/assets';
@@ -13,12 +13,12 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
     {
       downArrowIcon,
       containerStyle,
-      defaultCountry,
-      defaultValue,
+      defaultCountry = 'BD',
+      defaultValue = '',
       inputProps,
       onChangeText,
       onSelectCountryCode,
-      placeholder,
+      placeholder = 'Phone Number',
       textInputStyle,
       placeholderColor,
       codeTextStyle,
@@ -28,80 +28,104 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
     },
     ref
   ) => {
-    const [country, setCountry] = useState<EachCountry>(
-      constants[defaultCountry || 'BD']
-    );
+    // Memoize initial country to prevent unnecessary re-creation
+    const initialCountry = useMemo(() => constants[defaultCountry], [defaultCountry]);
+    
+    const [country, setCountry] = useState<EachCountry>(initialCountry);
+    const [value, setValue] = useState<string>(defaultValue);
+    
     const openModalRef = useRef<PickerOpenRef>(null);
-    const [value, setValue] = useState<string>(defaultValue || '');
     const inputRef = useRef<TextInput>(null);
-    const openBottomSheet = () => {
+    
+    // Memoize styles to prevent recreation on every render
+    const componentStyles = useMemo(() => styles(darkMode), [darkMode]);
+    
+    // Memoize arrow icon to prevent recreation
+    const arrowIcon = useMemo(() => {
+      if (downArrowIcon) return downArrowIcon;
+      
+      return (
+        <Image
+          source={{
+            uri: darkMode ? assets.downArrowDefaultIcon : assets.downArrowDarkIcon,
+          }}
+          resizeMode="contain"
+          height={10}
+          width={10}
+        />
+      );
+    }, [downArrowIcon, darkMode]);
+    
+    // Memoize regex pattern to avoid recreation
+    const validationRegex = useMemo(() => new RegExp(country.regex), [country.regex]);
+    
+    const openBottomSheet = useCallback(() => {
       openModalRef.current?.openModal();
-    };
-    useImperativeHandle(ref, () => ({
-      isValidNumber: (text: string) => {
-        if (text.length === 0) {
-          return false;
-        }
-        const finalText = country.callingCode + text;
-        return !!finalText.match(new RegExp(country.regex));
-      },
-      defaultCountry: (code: CountryCode) => {
-        setCountry(constants[code]);
-      },
-      defaultValue: (text: string) => {
-        setValue(text);
-      },
-      onChangeText: (text: string) => {
-        if (inputRef.current) {
-          inputRef.current.setNativeProps({ text });
-        }
-      },
-    }));
-    const onSelect = (item: EachCountry) => {
+    }, []);
+    
+    const handleCountrySelect = useCallback((item: EachCountry) => {
       setCountry(item);
-      onSelectCountryCode &&
-        onSelectCountryCode({
-          countryCode: item.countryCode,
-          callingCode: item.callingCode,
-        });
-    };
-    const handleChangeText = (text: string) => {
-      inputRef.current?.setNativeProps({ text });
-      onChangeText && onChangeText(text);
-    };
-    const style = styles(darkMode);
+      onSelectCountryCode?.({
+        countryCode: item.countryCode,
+        callingCode: item.callingCode,
+      });
+    }, [onSelectCountryCode]);
+    
+    const handleChangeText = useCallback((text: string) => {
+      setValue(text);
+      onChangeText?.(text);
+    }, [onChangeText]);
+    
+    // Memoize imperative handle methods
+    const imperativeHandleMethods = useMemo(() => ({
+      isValidNumber: (text: string): boolean => {
+        if (!text?.length) return false;
+        const fullNumber = country.callingCode + text;
+        return validationRegex.test(fullNumber);
+      },
+      
+      defaultCountry: (code: CountryCode): void => {
+        const newCountry = constants[code];
+        if (newCountry) {
+          setCountry(newCountry);
+        }
+      },
+      
+      defaultValue: (text: string): void => {
+        setValue(text);
+        inputRef.current?.setNativeProps({ text });
+      },
+      
+      onChangeText: (text: string): void => {
+        setValue(text);
+        inputRef.current?.setNativeProps({ text });
+      },
+    }), [country.callingCode, validationRegex]);
+    
+    useImperativeHandle(ref, () => imperativeHandleMethods, [imperativeHandleMethods]);
+    
     return (
-      <React.Fragment>
-        <View style={[style.container, containerStyle]}>
+      <>
+        <View style={[componentStyles.container, containerStyle]}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={openBottomSheet}
-            style={[style.flexRow, iconContainerStyle]}
+            style={[componentStyles.flexRow, iconContainerStyle]}
           >
-            <Text style={style.ft28}>{country.icon}</Text>
-            {downArrowIcon || (
-              <Image
-                source={{
-                  uri: !darkMode
-                    ? assets.downArrowDarkIcon
-                    : assets.downArrowDefaultIcon,
-                }}
-                resizeMode="contain"
-                height={10}
-                width={10}
-              />
-            )}
+            <Text style={componentStyles.ft28}>{country.icon}</Text>
+            {arrowIcon}
           </TouchableOpacity>
-          <View style={[style.flexRow, style.gap10]}>
-            <Text style={[style.ft16, codeTextStyle]}>
+          
+          <View style={[componentStyles.flexRow, componentStyles.gap10]}>
+            <Text style={[componentStyles.ft16, codeTextStyle]}>
               +{country.callingCode}
             </Text>
             <TextInput
-              style={[style.width75, style.ft16, textInputStyle]}
-              placeholder={placeholder || 'Phone Number'}
-              numberOfLines={1}
               ref={inputRef}
-              defaultValue={value}
+              style={[componentStyles.width75, componentStyles.ft16, textInputStyle]}
+              placeholder={placeholder}
+              numberOfLines={1}
+              value={value}
               placeholderTextColor={placeholderColor}
               onChangeText={handleChangeText}
               inputMode="numeric"
@@ -109,15 +133,20 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
             />
           </View>
         </View>
+        
         <CountryPickerModal
           ref={openModalRef}
           darkMode={darkMode}
-          onSelect={onSelect}
+          onSelect={handleCountrySelect}
           searchInputProps={searchInputProps}
         />
-      </React.Fragment>
+      </>
     );
   }
 );
+
+// Add display name for debugging
+RNPhoneInput.displayName = 'RNPhoneInput';
+
 export type { CountryCode, RNPhoneInputProps, RNPhoneInputRef };
 export default RNPhoneInput;
