@@ -1,13 +1,12 @@
-import React, { useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import { forwardRef, useImperativeHandle, useState } from 'react';
-import constants from './main/constants/constants';
-import assets from './main/assets/assets';
-import styles from './styles';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { RNPhoneInputProps, RNPhoneInputRef } from './index.d';
+import assets from './main/assets/assets';
+import constants from './main/constants/constants';
 import type { CountryCode, EachCountry } from './main/constants/constants.d';
 import CountryPickerModal from './main/country-picker/CountryPickerModal';
 import { type PickerOpenRef } from './main/country-picker/Picker.d';
+import styles from './styles';
 
 const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
   (
@@ -25,6 +24,7 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
       codeTextStyle,
       iconContainerStyle,
       darkMode = false,
+      searchInputProps,
     },
     ref
   ) => {
@@ -113,10 +113,11 @@ const RNPhoneInput = forwardRef<RNPhoneInputRef, RNPhoneInputProps>(
           ref={openModalRef}
           darkMode={darkMode}
           onSelect={onSelect}
+          searchInputProps={searchInputProps}
         />
       </React.Fragment>
     );
   }
 );
-export type { RNPhoneInputProps, RNPhoneInputRef, CountryCode };
+export type { CountryCode, RNPhoneInputProps, RNPhoneInputRef };
 export default RNPhoneInput;

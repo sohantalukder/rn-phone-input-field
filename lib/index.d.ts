@@ -78,6 +78,8 @@ interface RNPhoneInputProps {
    * Determines whether the component should use dark mode.
    */
   darkMode?: boolean;
+
+  searchInputProps?: TextInputProps;
 }
 
 /**
