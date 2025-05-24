@@ -40,6 +40,17 @@ const pickerStyles = (isDark: boolean) =>
       justifyContent: 'center',
       minWidth: 0,
     },
+    emptyContainer: {
+      padding: 16,
+      alignItems: 'center',
+    },
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '500',
+      lineHeight: 24,
+      textAlign: 'center',
+      color: isDark ? '#F8F8F8' : '#1B1D20',
+    },
   });
 
 const customBorder = (index: number, isDark: boolean) =>
