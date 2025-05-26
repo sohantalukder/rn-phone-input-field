@@ -1,4 +1,12 @@
-import React, { forwardRef, useImperativeHandle, useState, useCallback, useRef, useEffect } from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from 'react';
 import {
   Animated,
   Dimensions,
@@ -7,6 +15,7 @@ import {
   StatusBar,
   TextInputProps,
   Platform,
+  ViewStyle,
 } from 'react-native';
 import { type EachCountry } from '../constants/constants.d';
 import Picker from './Picker';
@@ -14,7 +23,15 @@ import { type PickerOpenRef } from './Picker.d';
 import { countryPickerStyles } from './styles/picker.style';
 
 const { height: screenHeight } = Dimensions.get('window');
-const statusBarHeight = Platform.OS === 'android' ? (StatusBar.currentHeight || 0) : 0;
+const statusBarHeight =
+  Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
+
+// Animation configuration
+const ANIMATION_CONFIG = {
+  friction: 8,
+  tension: 50,
+  useNativeDriver: true,
+};
 
 interface Props {
   darkMode: boolean;
@@ -31,43 +48,44 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
     const openModal = useCallback(() => {
       setIsModalVisible(true);
       setIsAnimating(true);
-      
-      // Animate modal sliding up from bottom
+
       Animated.spring(animationValue, {
+        ...ANIMATION_CONFIG,
         toValue: statusBarHeight,
-        friction: 8,
-        tension: 50,
-        useNativeDriver: true,
       }).start(() => {
         setIsAnimating(false);
       });
     }, [animationValue]);
 
     const closeModal = useCallback(() => {
-      if (isAnimating) return; // Prevent multiple close calls during animation
-      
+      if (isAnimating) return;
+
       setIsAnimating(true);
-      
-      // Animate modal sliding down
+
       Animated.spring(animationValue, {
+        ...ANIMATION_CONFIG,
         toValue: screenHeight,
-        friction: 8,
-        tension: 50,
-        useNativeDriver: true,
       }).start(() => {
         setIsModalVisible(false);
         setIsAnimating(false);
       });
     }, [animationValue, isAnimating]);
 
-    const handleCountrySelect = useCallback((country: EachCountry) => {
-      onSelect(country);
-      closeModal();
-    }, [onSelect, closeModal]);
+    const handleCountrySelect = useCallback(
+      (country: EachCountry) => {
+        onSelect(country);
+        closeModal();
+      },
+      [onSelect, closeModal]
+    );
 
-    useImperativeHandle(ref, () => ({
-      openModal,
-    }), [openModal]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        openModal,
+      }),
+      [openModal]
+    );
 
     // Reset animation value when modal closes
     useEffect(() => {
@@ -76,45 +94,64 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
       }
     }, [isModalVisible, animationValue]);
 
-    if (!isModalVisible) {
-      return null;
-    }
+    // Cleanup animation on unmount
+    useEffect(() => {
+      return () => {
+        animationValue.stopAnimation();
+      };
+    }, [animationValue]);
 
-    return (
-      <>
-        <StatusBar
-          barStyle={darkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={darkMode ? '#000000' : '#FFFFFF'}
-        />
-        <Modal 
-          visible={isModalVisible} 
-          transparent 
-          animationType="none" // We handle animation ourselves
-          statusBarTranslucent={Platform.OS === 'android'}
-          onRequestClose={closeModal} // Handle Android back button
-        >
-          <Animated.View 
-            style={[
-              {
-                flex: 1,
-                transform: [{ translateY: animationValue }],
-              }
-            ]}
-          >
-            <SafeAreaView
-              style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
-            >
-              <Picker
-                onSelect={handleCountrySelect}
-                darkMode={darkMode}
-                closeModal={closeModal}
-                searchInputProps={searchInputProps}
-              />
-            </SafeAreaView>
-          </Animated.View>
-        </Modal>
-      </>
+    // Memoize animated style
+    const animatedStyle = useMemo<ViewStyle>(
+      () => ({
+        flex: 1,
+        transform: [{ translateY: animationValue }],
+      }),
+      [animationValue]
     );
+
+    // Memoize modal content
+    const modalContent = useMemo(() => {
+      if (!isModalVisible) return null;
+
+      return (
+        <>
+          <StatusBar
+            barStyle={darkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={darkMode ? '#000000' : '#FFFFFF'}
+          />
+          <Modal
+            visible={isModalVisible}
+            transparent
+            animationType="none"
+            statusBarTranslucent={Platform.OS === 'android'}
+            onRequestClose={closeModal}
+          >
+            <Animated.View style={animatedStyle}>
+              <SafeAreaView
+                style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
+              >
+                <Picker
+                  onSelect={handleCountrySelect}
+                  darkMode={darkMode}
+                  closeModal={closeModal}
+                  searchInputProps={searchInputProps}
+                />
+              </SafeAreaView>
+            </Animated.View>
+          </Modal>
+        </>
+      );
+    }, [
+      isModalVisible,
+      darkMode,
+      animatedStyle,
+      handleCountrySelect,
+      closeModal,
+      searchInputProps,
+    ]);
+
+    return modalContent;
   }
 );
 

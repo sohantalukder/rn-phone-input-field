@@ -10,7 +10,7 @@ import type { CountryCode, EachCountry } from './main/constants/constants.d';
 /**
  * Props for the RNPhoneInput component.
  */
-interface RNPhoneInputProps {
+interface PhoneInputProps {
   /**
    * Callback triggered when the text input value changes.
    * @param value - The updated input value.
@@ -85,7 +85,7 @@ interface RNPhoneInputProps {
 /**
  * Ref for the RNPhoneInput component.
  */
-interface RNPhoneInputRef {
+interface PhoneInputRef {
   /**
    * Validates the entered phone number.
    * @param value - The phone number to validate.
@@ -111,4 +111,4 @@ interface RNPhoneInputRef {
    */
   defaultValue?: (text: string) => void;
 }
-export type { RNPhoneInputProps, RNPhoneInputRef };
+export type { PhoneInputProps, PhoneInputRef };

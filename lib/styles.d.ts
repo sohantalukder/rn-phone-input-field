@@ -1,6 +1,6 @@
 import type { DimensionValue } from 'react-native';
 
-type ContainerStyle = {
+export type ContainerStyle = {
   flexDirection: 'row';
   alignItems: 'center';
   gap: number;
@@ -10,32 +10,33 @@ type ContainerStyle = {
   paddingVertical: number;
   paddingHorizontal: number;
   flexShrink: number;
+  backgroundColor: string;
 };
 
-type FlexRowStyle = {
+export type FlexRowStyle = {
   flexDirection: 'row';
   alignItems: 'center';
   gap: number;
 };
 
-type GapStyle = {
+export type GapStyle = {
   gap: number;
 };
 
-type FontSize28Style = {
+export type FontSize28Style = {
   fontSize: number;
 };
 
-type FontSize16Style = {
+export type FontSize16Style = {
   fontSize: number;
   color: string;
 };
 
-type WidthStyle = {
+export type WidthStyle = {
   width: DimensionValue;
 };
 
-type Styles = (isDark: boolean) => {
+export type Styles = (isDark: boolean) => {
   container: ContainerStyle;
   flexRow: FlexRowStyle;
   gap10: GapStyle;
@@ -43,7 +44,5 @@ type Styles = (isDark: boolean) => {
   ft16: FontSize16Style;
   width75: WidthStyle;
 };
-
-declare const Styles: Styles;
 
 export default Styles;

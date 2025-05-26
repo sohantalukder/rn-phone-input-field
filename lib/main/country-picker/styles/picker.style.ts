@@ -1,4 +1,34 @@
 import { StyleSheet } from 'react-native';
+import { useMemo } from 'react';
+
+// Constants for colors and dimensions
+const COLORS = {
+  dark: {
+    text: '#F8F8F8',
+    background: '#000000',
+    searchText: '#FFFFFF',
+  },
+  light: {
+    text: '#1B1D20',
+    background: '#FFFFFF',
+    searchText: '#000000',
+  },
+};
+
+const DIMENSIONS = {
+  padding: {
+    horizontal: 20,
+    vertical: 16,
+  },
+  fontSize: {
+    small: 16,
+    medium: 18,
+    large: 22,
+  },
+  icon: {
+    size: 48,
+  },
+};
 
 const pickerStyles = (isDark: boolean) =>
   StyleSheet.create({
@@ -9,14 +39,16 @@ const pickerStyles = (isDark: boolean) =>
       alignItems: 'center',
     },
     eachTextContainer: {
-      color: isDark ? '#F8F8F8' : '#1B1D20',
-      fontSize: 18,
+      color: isDark ? COLORS.dark.text : COLORS.light.text,
+      fontSize: DIMENSIONS.fontSize.medium,
     },
-    eachText: { fontSize: 22, lineHeight: 0 },
+    eachText: {
+      fontSize: DIMENSIONS.fontSize.large,
+    },
     searchInput: {
       flexGrow: 1,
-      fontSize: 16,
-      color: isDark ? '#FFFFFF' : '#000000',
+      fontSize: DIMENSIONS.fontSize.small,
+      color: isDark ? COLORS.dark.searchText : COLORS.light.searchText,
     },
     flatListContainer: {
       paddingTop: 8,
@@ -24,7 +56,9 @@ const pickerStyles = (isDark: boolean) =>
     },
     bgWhite: {
       flex: 1,
-      backgroundColor: isDark ? '#000000' : '#FFFFFF',
+      backgroundColor: isDark
+        ? COLORS.dark.background
+        : COLORS.light.background,
     },
     flexRow: {
       flexDirection: 'row',
@@ -32,8 +66,8 @@ const pickerStyles = (isDark: boolean) =>
       gap: 10,
     },
     iconButton: {
-      height: 48,
-      width: 48,
+      height: DIMENSIONS.icon.size,
+      width: DIMENSIONS.icon.size,
       padding: 0,
       borderRadius: 500,
       alignItems: 'center',
@@ -41,25 +75,25 @@ const pickerStyles = (isDark: boolean) =>
       minWidth: 0,
     },
     emptyContainer: {
-      padding: 16,
+      padding: DIMENSIONS.padding.vertical,
       alignItems: 'center',
     },
     emptyText: {
-      fontSize: 16,
+      fontSize: DIMENSIONS.fontSize.small,
       fontWeight: '500',
       lineHeight: 24,
       textAlign: 'center',
-      color: isDark ? '#F8F8F8' : '#1B1D20',
+      color: isDark ? COLORS.dark.text : COLORS.light.text,
     },
   });
 
 const customBorder = (index: number, isDark: boolean) =>
   StyleSheet.create({
     border: {
-      paddingTop: index === 0 ? 0 : 16,
-      paddingRight: 20,
-      paddingBottom: 16,
-      paddingLeft: 20,
+      paddingTop: index === 0 ? 0 : DIMENSIONS.padding.vertical,
+      paddingRight: DIMENSIONS.padding.horizontal,
+      paddingBottom: DIMENSIONS.padding.vertical,
+      paddingLeft: DIMENSIONS.padding.horizontal,
       borderTopWidth: index === 0 ? 0 : 1,
       borderTopColor:
         index === 0 ? '' : `rgba(${isDark ? '255,255,255' : '0,0,0'},0.2)`,
@@ -73,4 +107,9 @@ const countryPickerStyles = StyleSheet.create({
   },
 });
 
-export { pickerStyles, countryPickerStyles, customBorder };
+// Memoized hook for styles
+export const usePickerStyles = (isDark: boolean) => {
+  return useMemo(() => pickerStyles(isDark), [isDark]);
+};
+
+export { countryPickerStyles, customBorder };
