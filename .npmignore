@@ -1,0 +1,13 @@
+example/
+lib/
+.github/
+.gitignore
+.eslintrc.js
+.prettierrc
+CHANGELOG.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+.DS_Store
+tsconfig.json
+ReadMe.md
+package-lock.json
