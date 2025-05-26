@@ -110,48 +110,36 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
       [animationValue]
     );
 
-    // Memoize modal content
-    const modalContent = useMemo(() => {
-      if (!isModalVisible) return null;
+    if (!isModalVisible) return null;
 
-      return (
-        <>
-          <StatusBar
-            barStyle={darkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={darkMode ? '#000000' : '#FFFFFF'}
-          />
-          <Modal
-            visible={isModalVisible}
-            transparent
-            animationType="none"
-            statusBarTranslucent={Platform.OS === 'android'}
-            onRequestClose={closeModal}
-          >
-            <Animated.View style={animatedStyle}>
-              <SafeAreaView
-                style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
-              >
-                <Picker
-                  onSelect={handleCountrySelect}
-                  darkMode={darkMode}
-                  closeModal={closeModal}
-                  searchInputProps={searchInputProps}
-                />
-              </SafeAreaView>
-            </Animated.View>
-          </Modal>
-        </>
-      );
-    }, [
-      isModalVisible,
-      darkMode,
-      animatedStyle,
-      handleCountrySelect,
-      closeModal,
-      searchInputProps,
-    ]);
-
-    return modalContent;
+    return (
+      <>
+        <StatusBar
+          barStyle={darkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={darkMode ? '#000000' : '#FFFFFF'}
+        />
+        <Modal
+          visible={isModalVisible}
+          transparent
+          animationType="none"
+          statusBarTranslucent={Platform.OS === 'android'}
+          onRequestClose={closeModal}
+        >
+          <Animated.View style={animatedStyle}>
+            <SafeAreaView
+              style={[countryPickerStyles.flex, countryPickerStyles.mb40]}
+            >
+              <Picker
+                onSelect={handleCountrySelect}
+                darkMode={darkMode}
+                closeModal={closeModal}
+                searchInputProps={searchInputProps}
+              />
+            </SafeAreaView>
+          </Animated.View>
+        </Modal>
+      </>
+    );
   }
 );
 

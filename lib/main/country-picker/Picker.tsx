@@ -61,8 +61,11 @@ const Picker: React.FC<PickerProps> = ({
   const [searchText, setSearchText] = useState('');
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
+  // Get styles first
+  const styles = usePickerStyles(darkMode);
+
   // Memoize styles to prevent recreation on every render
-  const styles = useMemo(() => usePickerStyles(darkMode), [darkMode]);
+  const memoizedStyles = useMemo(() => styles, [styles]);
 
   // Optimized search functionality with debouncing
   const handleSearch = useCallback(
@@ -132,13 +135,13 @@ const Picker: React.FC<PickerProps> = ({
   // Memoized empty component for better UX
   const EmptyComponent = useMemo(
     () => (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>
+      <View style={memoizedStyles.emptyContainer}>
+        <Text style={memoizedStyles.emptyText}>
           No countries found for "{searchText}"
         </Text>
       </View>
     ),
-    [styles.emptyContainer, styles.emptyText, searchText]
+    [memoizedStyles.emptyContainer, memoizedStyles.emptyText, searchText]
   );
 
   // Memoized getItemLayout for better FlatList performance
@@ -152,10 +155,10 @@ const Picker: React.FC<PickerProps> = ({
   );
 
   return (
-    <View style={styles.bgWhite}>
-      <View style={styles.flexRow}>
+    <View style={memoizedStyles.bgWhite}>
+      <View style={memoizedStyles.flexRow}>
         <TouchableOpacity
-          style={styles.iconButton}
+          style={memoizedStyles.iconButton}
           onPress={closeModal}
           accessibilityLabel="Close country picker"
           accessibilityRole="button"
@@ -168,7 +171,7 @@ const Picker: React.FC<PickerProps> = ({
           value={searchText}
           onChangeText={handleSearch}
           placeholderTextColor={darkMode ? '#FFFFFF' : '#000000'}
-          style={styles.searchInput}
+          style={memoizedStyles.searchInput}
           autoCorrect={false}
           autoCapitalize="none"
           returnKeyType="search"
@@ -187,7 +190,7 @@ const Picker: React.FC<PickerProps> = ({
         automaticallyAdjustKeyboardInsets={true}
         keyExtractor={keyExtractor}
         renderItem={renderCountryItem}
-        contentContainerStyle={styles.flatListContainer}
+        contentContainerStyle={memoizedStyles.flatListContainer}
         initialNumToRender={15}
         maxToRenderPerBatch={10}
         windowSize={10}
