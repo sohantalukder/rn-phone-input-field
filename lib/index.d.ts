@@ -79,6 +79,9 @@ interface PhoneInputProps {
    */
   darkMode?: boolean;
 
+  /**
+   * Additional props passed to the search input field.
+   */
   searchInputProps?: TextInputProps;
 }
 
