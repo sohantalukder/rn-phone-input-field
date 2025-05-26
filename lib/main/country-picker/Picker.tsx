@@ -47,164 +47,166 @@ const EachOption = memo<EachOptionProps>(
 
 EachOption.displayName = 'EachOption';
 
-const Picker: React.FC<PickerProps> = ({
-  onSelect,
-  darkMode,
-  closeModal,
-  searchInputProps,
-}) => {
-  // Memoize initial country list to prevent recreation
-  const allCountries = useMemo(() => Object.values(constants), []);
+const Picker: React.FC<PickerProps> = memo(
+  ({ onSelect, darkMode, closeModal, searchInputProps }) => {
+    // Memoize initial country list to prevent recreation
+    const allCountries = useMemo(() => Object.values(constants), []);
 
-  const [filteredCountries, setFilteredCountries] =
-    useState<EachCountry[]>(allCountries);
-  const [searchText, setSearchText] = useState('');
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+    const [filteredCountries, setFilteredCountries] =
+      useState<EachCountry[]>(allCountries);
+    const [searchText, setSearchText] = useState('');
+    const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Get styles first
-  const styles = usePickerStyles(darkMode);
+    // Get styles first
+    const styles = usePickerStyles(darkMode);
 
-  // Memoize styles to prevent recreation on every render
-  const memoizedStyles = useMemo(() => styles, [styles]);
+    // Memoize styles to prevent recreation on every render
+    const memoizedStyles = useMemo(() => styles, [styles]);
 
-  // Optimized search functionality with debouncing
-  const handleSearch = useCallback(
-    (text: string) => {
-      setSearchText(text);
+    // Optimized search functionality with debouncing
+    const handleSearch = useCallback(
+      (text: string) => {
+        setSearchText(text);
 
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-
-      searchTimeoutRef.current = setTimeout(() => {
-        if (!text.trim()) {
-          setFilteredCountries(allCountries);
-          return;
+        if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
         }
 
-        const searchTerm = text.toLowerCase().trim();
-        const filtered = allCountries.filter((country) => {
-          const countryName = country.countryName?.toLowerCase() || '';
-          const callingCode = country.callingCode?.toString() || '';
+        searchTimeoutRef.current = setTimeout(() => {
+          if (!text.trim()) {
+            setFilteredCountries(allCountries);
+            return;
+          }
 
-          return (
-            countryName.includes(searchTerm) ||
-            callingCode.includes(searchTerm) ||
-            country.countryCode?.toLowerCase().includes(searchTerm)
-          );
-        });
+          const searchTerm = text.toLowerCase().trim();
+          const filtered = allCountries.filter((country) => {
+            const countryName = country.countryName?.toLowerCase() || '';
+            const callingCode = country.callingCode?.toString() || '';
 
-        setFilteredCountries(filtered);
-      }, 300); // 300ms debounce
-    },
-    [allCountries]
-  );
+            return (
+              countryName.includes(searchTerm) ||
+              callingCode.includes(searchTerm) ||
+              country.countryCode?.toLowerCase().includes(searchTerm)
+            );
+          });
 
-  // Memoized close icon to prevent recreation
-  const closeIcon = useMemo(
-    () => (
-      <Image
-        source={{
-          uri: darkMode ? assets.closeDarkIcon : assets.closeDefaultIcon,
-        }}
-        resizeMode="contain"
-        height={12}
-        width={12}
-      />
-    ),
-    [darkMode]
-  );
+          setFilteredCountries(filtered);
+        }, 300); // 300ms debounce
+      },
+      [allCountries]
+    );
 
-  // Memoized render item function for FlatList
-  const renderCountryItem: ListRenderItem<EachCountry> = useCallback(
-    ({ item, index }) => (
-      <EachOption
-        onSelect={onSelect}
-        item={item}
-        darkMode={darkMode}
-        index={index}
-        closeModal={closeModal}
-      />
-    ),
-    [onSelect, darkMode, closeModal]
-  );
+    // Memoized close icon to prevent recreation
+    const closeIcon = useMemo(
+      () => (
+        <Image
+          source={{
+            uri: darkMode ? assets.closeDarkIcon : assets.closeDefaultIcon,
+          }}
+          resizeMode="contain"
+          height={12}
+          width={12}
+        />
+      ),
+      [darkMode]
+    );
 
-  // Memoized key extractor
-  const keyExtractor = useCallback((item: EachCountry) => item.countryCode, []);
+    // Memoized render item function for FlatList
+    const renderCountryItem: ListRenderItem<EachCountry> = useCallback(
+      ({ item, index }) => (
+        <EachOption
+          onSelect={onSelect}
+          item={item}
+          darkMode={darkMode}
+          index={index}
+          closeModal={closeModal}
+        />
+      ),
+      [onSelect, darkMode, closeModal]
+    );
 
-  // Memoized empty component for better UX
-  const EmptyComponent = useMemo(
-    () => (
-      <View style={memoizedStyles.emptyContainer}>
-        <Text style={memoizedStyles.emptyText}>
-          No countries found for "{searchText}"
-        </Text>
-      </View>
-    ),
-    [memoizedStyles.emptyContainer, memoizedStyles.emptyText, searchText]
-  );
+    // Memoized key extractor
+    const keyExtractor = useCallback(
+      (item: EachCountry) => item.countryCode,
+      []
+    );
 
-  // Memoized getItemLayout for better FlatList performance
-  const getItemLayout = useCallback(
-    (data: ArrayLike<EachCountry> | null | undefined, index: number) => ({
-      length: 60,
-      offset: 60 * index,
-      index,
-    }),
-    []
-  );
+    // Memoized empty component for better UX
+    const EmptyComponent = useMemo(
+      () => (
+        <View style={memoizedStyles.emptyContainer}>
+          <Text style={memoizedStyles.emptyText}>
+            No countries found for "{searchText}"
+          </Text>
+        </View>
+      ),
+      [memoizedStyles.emptyContainer, memoizedStyles.emptyText, searchText]
+    );
 
-  return (
-    <View style={memoizedStyles.bgWhite}>
-      <View style={memoizedStyles.flexRow}>
-        <TouchableOpacity
-          style={memoizedStyles.iconButton}
-          onPress={closeModal}
-          accessibilityLabel="Close country picker"
-          accessibilityRole="button"
-        >
-          {closeIcon}
-        </TouchableOpacity>
+    // Memoized getItemLayout for better FlatList performance
+    const getItemLayout = useCallback(
+      (data: ArrayLike<EachCountry> | null | undefined, index: number) => ({
+        length: 60,
+        offset: 60 * index,
+        index,
+      }),
+      []
+    );
 
-        <TextInput
-          placeholder="Search Country"
-          value={searchText}
-          onChangeText={handleSearch}
-          placeholderTextColor={darkMode ? '#FFFFFF' : '#000000'}
-          style={memoizedStyles.searchInput}
-          autoCorrect={false}
-          autoCapitalize="none"
-          returnKeyType="search"
-          clearButtonMode="while-editing"
-          accessibilityLabel="Search countries"
-          maxLength={50}
-          blurOnSubmit={false}
-          {...searchInputProps}
+    return (
+      <View style={memoizedStyles.bgWhite}>
+        <View style={memoizedStyles.flexRow}>
+          <TouchableOpacity
+            style={memoizedStyles.iconButton}
+            onPress={closeModal}
+            accessibilityLabel="Close country picker"
+            accessibilityRole="button"
+          >
+            {closeIcon}
+          </TouchableOpacity>
+
+          <TextInput
+            placeholder="Search Country"
+            value={searchText}
+            onChangeText={handleSearch}
+            placeholderTextColor={darkMode ? '#FFFFFF' : '#000000'}
+            style={memoizedStyles.searchInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+            returnKeyType="search"
+            clearButtonMode="while-editing"
+            accessibilityLabel="Search countries"
+            maxLength={50}
+            blurOnSubmit={false}
+            {...searchInputProps}
+          />
+        </View>
+
+        <FlatList
+          data={filteredCountries}
+          keyboardShouldPersistTaps="always"
+          showsVerticalScrollIndicator={false}
+          automaticallyAdjustKeyboardInsets={true}
+          keyExtractor={keyExtractor}
+          renderItem={renderCountryItem}
+          contentContainerStyle={memoizedStyles.flatListContainer}
+          initialNumToRender={15}
+          maxToRenderPerBatch={10}
+          windowSize={10}
+          removeClippedSubviews={true}
+          getItemLayout={getItemLayout}
+          updateCellsBatchingPeriod={50}
+          maintainVisibleContentPosition={{
+            minIndexForVisible: 0,
+            autoscrollToTopThreshold: 10,
+          }}
+          ListEmptyComponent={EmptyComponent}
         />
       </View>
+    );
+  }
+);
 
-      <FlatList
-        data={filteredCountries}
-        keyboardShouldPersistTaps="always"
-        showsVerticalScrollIndicator={false}
-        automaticallyAdjustKeyboardInsets={true}
-        keyExtractor={keyExtractor}
-        renderItem={renderCountryItem}
-        contentContainerStyle={memoizedStyles.flatListContainer}
-        initialNumToRender={15}
-        maxToRenderPerBatch={10}
-        windowSize={10}
-        removeClippedSubviews={true}
-        getItemLayout={getItemLayout}
-        updateCellsBatchingPeriod={50}
-        maintainVisibleContentPosition={{
-          minIndexForVisible: 0,
-          autoscrollToTopThreshold: 10,
-        }}
-        ListEmptyComponent={searchText ? EmptyComponent : null}
-      />
-    </View>
-  );
-};
+Picker.displayName = 'Picker';
 
-export default memo(Picker);
+export default Picker;

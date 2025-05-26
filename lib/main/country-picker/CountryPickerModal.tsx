@@ -45,31 +45,35 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
     const [isAnimating, setIsAnimating] = useState(false);
     const animationValue = useRef(new Animated.Value(screenHeight)).current;
 
+    const animateToValue = useCallback(
+      (toValue: number, onComplete?: () => void) => {
+        Animated.spring(animationValue, {
+          ...ANIMATION_CONFIG,
+          toValue,
+        }).start(onComplete);
+      },
+      [animationValue]
+    );
+
     const openModal = useCallback(() => {
       setIsModalVisible(true);
       setIsAnimating(true);
-
-      Animated.spring(animationValue, {
-        ...ANIMATION_CONFIG,
-        toValue: statusBarHeight,
-      }).start(() => {
+      animateToValue(statusBarHeight, () => {
         setIsAnimating(false);
       });
-    }, [animationValue]);
+    }, [animateToValue]);
 
     const closeModal = useCallback(() => {
       if (isAnimating) return;
 
       setIsAnimating(true);
-
-      Animated.spring(animationValue, {
-        ...ANIMATION_CONFIG,
-        toValue: screenHeight,
-      }).start(() => {
-        setIsModalVisible(false);
-        setIsAnimating(false);
+      animateToValue(screenHeight, () => {
+        requestAnimationFrame(() => {
+          setIsModalVisible(false);
+          setIsAnimating(false);
+        });
       });
-    }, [animationValue, isAnimating]);
+    }, [isAnimating, animateToValue]);
 
     const handleCountrySelect = useCallback(
       (country: EachCountry) => {
