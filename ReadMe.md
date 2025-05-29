@@ -205,7 +205,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 - 📧 **Email**: [mdtalukder.sohan@gmail.com](mailto:mdtalukder.sohan@gmail.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/your-username/rn-phone-input-field/issues)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/sohantalukder/rn-phone-input-field/issues)
 - 💼 **Freelance Work**: Available for React/React Native projects
 
 ---
@@ -214,6 +214,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the React Native community**
 
-[⭐ Star this repo](https://github.com/your-username/rn-phone-input-field) if you found it helpful!
+[⭐ Star this repo](https://github.com/sohantalukder/rn-phone-input-field) if you found it helpful!
 
 </div>
