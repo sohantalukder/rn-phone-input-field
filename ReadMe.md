@@ -48,19 +48,32 @@ pnpm add rn-phone-input-field
 ## Quick Start
 
 ```typescript
-import React, { useRef } from 'react';
-import { View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Text, View } from 'react-native';
 import { PhoneInput, PhoneInputRef } from 'rn-phone-input-field';
 
 const App = () => {
   const phoneInputRef = useRef<PhoneInputRef>(null);
+  const [validationMessage, setValidationMessage] = useState('');
+  const [isValidPhone, setIsValidPhone] = useState(false);
 
   const handlePhoneChange = (phoneNumber: string) => {
     console.log('Phone number:', phoneNumber);
 
-    // Validate the number
-    const isValid = phoneInputRef.current?.isValidNumber(phoneNumber);
-    console.log('Is valid:', isValid);
+    if (!phoneNumber.trim()) {
+      setIsValidPhone(false);
+      setValidationMessage('Phone number is required.');
+      return;
+    }
+
+    const isValid = phoneInputRef.current?.isValidNumber(phoneNumber) ?? false;
+
+    setIsValidPhone(isValid);
+    setValidationMessage(
+      isValid
+        ? 'Valid phone number.'
+        : 'Enter a valid phone number for the selected country.'
+    );
   };
 
   return (
@@ -71,9 +84,15 @@ const App = () => {
         defaultCountry="US"
         onChangeText={handlePhoneChange}
         onSelectCountryCode={(country) => {
-          console.log('Selected country:', country.name);
+          console.log('Selected country:', country.countryCode);
+          console.log('Calling code:', country.callingCode);
         }}
       />
+      {!!validationMessage && (
+        <Text style={{ color: isValidPhone ? 'green' : 'red', marginTop: 8 }}>
+          {validationMessage}
+        </Text>
+      )}
     </View>
   );
 };

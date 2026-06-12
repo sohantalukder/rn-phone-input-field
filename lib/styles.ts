@@ -3,7 +3,6 @@ import type { Styles } from './styles.d';
 import type {
   ContainerStyle,
   FlexRowStyle,
-  GapStyle,
   FontSize28Style,
   FontSize16Style,
   WidthStyle,

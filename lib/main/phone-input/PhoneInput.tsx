@@ -44,6 +44,7 @@ const PhoneInput = forwardRef<PhoneInputRef, PhoneInputProps>(
     ref
   ) => {
     const countryPickerRef = useRef<PickerOpenRef>(null);
+    const onSelectCountryCodeRef = useRef(onSelectCountryCode);
     const [selectedCountry, setSelectedCountry] = useState<EachCountry>(() =>
       getCountryByCode(defaultCountry)
     );
@@ -68,12 +69,13 @@ const PhoneInput = forwardRef<PhoneInputRef, PhoneInputProps>(
       return Math.min(inputPropsMaxLength, maxNationalNumberLength);
     }, [inputPropsMaxLength, maxNationalNumberLength]);
 
-    const emitSelectedCountry = useCallback(
-      (country: EachCountry) => {
-        onSelectCountryCode?.(toSelectedCountryPayload(country));
-      },
-      [onSelectCountryCode]
-    );
+    useEffect(() => {
+      onSelectCountryCodeRef.current = onSelectCountryCode;
+    }, [onSelectCountryCode]);
+
+    const emitSelectedCountry = useCallback((country: EachCountry) => {
+      onSelectCountryCodeRef.current?.(toSelectedCountryPayload(country));
+    }, []);
 
     const applyValue = useCallback(
       (nextValue: string) => {
