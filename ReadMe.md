@@ -1,238 +1,237 @@
 # rn-phone-input-field
 
-[![npm version](https://badge.fury.io/js/rn-phone-input-field.svg)](https://badge.fury.io/js/rn-phone-input-field)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Downloads](https://img.shields.io/npm/dm/rn-phone-input-field.svg)](https://npmjs.org/package/rn-phone-input-field)
+[![npm version](https://badge.fury.io/js/rn-phone-input-field.svg)](https://www.npmjs.com/package/rn-phone-input-field)
+[![Downloads](https://img.shields.io/npm/dm/rn-phone-input-field.svg)](https://www.npmjs.com/package/rn-phone-input-field)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+A lightweight React Native phone number input with a built-in country code picker, country-aware validation, TypeScript types, and no runtime dependencies.
 
 ![PhoneInput](https://github.com/user-attachments/assets/6ecd0f96-7b34-4c81-9209-271bc51763e7)
 
-## 🚀 Ultra-Lightweight Phone Input Component
+## Features
 
-**Zero Dependencies. Maximum Performance.**
-
-`rn-phone-input-field` is a high-performance React Native phone input component engineered for production applications that demand both functionality and minimal bundle impact. Built entirely without external dependencies, it delivers enterprise-grade features while maintaining an exceptionally small footprint.
-
-## ✨ Key Features
-
-- **🪶 Zero Dependencies**: Completely self-contained with no external packages
-- **⚡ Ultra-Lightweight**: Minimal bundle size impact on your application
-- **🌍 Comprehensive Country Support**: Built-in country code database
-- **✅ Smart Validation**: Real-time phone number format validation
-- **🎨 Fully Customizable**: Extensive styling and configuration options
-- **📱 React Native Optimized**: Native performance and platform consistency
-- **🔧 TypeScript Ready**: Complete type definitions included
-
-## Why Choose rn-phone-input-field?
-
-In an ecosystem where dependencies can quickly bloat your application, `rn-phone-input-field` stands out by providing full functionality without any external packages. This results in:
-
-- **Faster app startup times**
-- **Reduced bundle size**
-- **Fewer security vulnerabilities**
-- **Simplified dependency management**
-- **Better long-term maintainability**
+- Built for React Native iOS and Android
+- No runtime dependencies
+- Country picker with calling codes
+- Country-aware phone number validation
+- Automatic digit sanitization and country-specific max length
+- Light and dark mode support
+- Fully typed TypeScript API
+- Customizable container, text input, country code, arrow icon, and search input
 
 ## Installation
 
-```bash
-# npm
+```sh
 npm install rn-phone-input-field
+```
 
-# yarn
+```sh
 yarn add rn-phone-input-field
+```
 
-# pnpm
+```sh
 pnpm add rn-phone-input-field
+```
+
+## Peer Dependencies
+
+This package expects React and React Native to be installed in your app:
+
+```json
+{
+  "react": ">=16.8.0",
+  "react-native": ">=0.60.0"
+}
 ```
 
 ## Quick Start
 
-```typescript
+```tsx
 import React, { useRef, useState } from 'react';
-import { Text, View } from 'react-native';
-import { PhoneInput, PhoneInputRef } from 'rn-phone-input-field';
+import { SafeAreaView, Text, View } from 'react-native';
+import PhoneInput, { type PhoneInputRef } from 'rn-phone-input-field';
 
-const App = () => {
+export default function App() {
   const phoneInputRef = useRef<PhoneInputRef>(null);
-  const [validationMessage, setValidationMessage] = useState('');
-  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handlePhoneChange = (phoneNumber: string) => {
-    console.log('Phone number:', phoneNumber);
+  const handleChange = (phoneNumber: string) => {
+    const isValid = phoneInputRef.current?.isValidNumber?.(phoneNumber) ?? false;
 
-    if (!phoneNumber.trim()) {
-      setIsValidPhone(false);
-      setValidationMessage('Phone number is required.');
-      return;
-    }
-
-    const isValid = phoneInputRef.current?.isValidNumber(phoneNumber) ?? false;
-
-    setIsValidPhone(isValid);
-    setValidationMessage(
-      isValid
-        ? 'Valid phone number.'
-        : 'Enter a valid phone number for the selected country.'
-    );
+    setMessage(isValid ? 'Valid phone number.' : 'Enter a valid phone number.');
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <PhoneInput
-        ref={phoneInputRef}
-        placeholder="Enter phone number"
-        defaultCountry="US"
-        onChangeText={handlePhoneChange}
-        onSelectCountryCode={(country) => {
-          console.log('Selected country:', country.countryCode);
-          console.log('Calling code:', country.callingCode);
-        }}
-      />
-      {!!validationMessage && (
-        <Text style={{ color: isValidPhone ? 'green' : 'red', marginTop: 8 }}>
-          {validationMessage}
-        </Text>
-      )}
-    </View>
-  );
-};
+    <SafeAreaView>
+      <View style={{ padding: 20 }}>
+        <PhoneInput
+          ref={phoneInputRef}
+          defaultCountry="US"
+          placeholder="Enter phone number"
+          onChangeText={handleChange}
+          onSelectCountryCode={(country) => {
+            console.log(country.countryCode);
+            console.log(country.callingCode);
+          }}
+        />
 
-export default App;
+        {!!message && <Text style={{ marginTop: 8 }}>{message}</Text>}
+      </View>
+    </SafeAreaView>
+  );
+}
 ```
 
-## API Reference
+You can also use the named export:
 
-### PhoneInputProps
+```tsx
+import { PhoneInput } from 'rn-phone-input-field';
+```
 
-| Property              | Type                             | Default  | Description                             |
-| --------------------- | -------------------------------- | -------- | --------------------------------------- |
-| `onChangeText`        | `(value: string) => void`        | -        | Callback fired when input value changes |
-| `onSelectCountryCode` | `(country: CountryInfo) => void` | -        | Callback fired when country is selected |
-| `defaultCountry`      | `CountryCode`                    | `"US"`   | Initial country code                    |
-| `defaultValue`        | `string`                         | `""`     | Initial input value                     |
-| `placeholder`         | `string`                         | -        | Input placeholder text                  |
-| `placeholderColor`    | `ColorValue`                     | `"#999"` | Placeholder text color                  |
-| `containerStyle`      | `StyleProp<ViewStyle>`           | -        | Container styling                       |
-| `textInputStyle`      | `StyleProp<TextStyle>`           | -        | Text input styling                      |
-| `codeTextStyle`       | `StyleProp<TextStyle>`           | -        | Country code text styling               |
-| `iconContainerStyle`  | `StyleProp<ViewStyle>`           | -        | Dropdown icon container styling         |
-| `downArrowIcon`       | `React.ReactNode`                | -        | Custom dropdown arrow component         |
-| `inputProps`          | `TextInputProps`                 | -        | Additional TextInput props              |
-| `searchInputProps`    | `TextInputProps`                 | -        | Country search input props              |
+## Default Value
 
-### PhoneInputRef Methods
+`defaultValue` accepts local or international-looking values. If the value starts with a known calling code, the component selects that country and stores the national number in the input.
 
-| Method           | Type                               | Description                         |
-| ---------------- | ---------------------------------- | ----------------------------------- |
-| `isValidNumber`  | `(phoneNumber: string) => boolean` | Validates phone number format       |
-| `onChangeText`   | `(value: string) => void`          | Programmatically update input value |
-| `defaultCountry` | `(code: CountryCode) => void`      | Change default country              |
-| `defaultValue`   | `(text: string) => void`           | Set default input value             |
+```tsx
+<PhoneInput defaultCountry="BD" defaultValue="+8801712345678" />
+```
 
-## Advanced Usage
+The value emitted by `onChangeText` is sanitized to digits only.
 
-### Custom Styling
+## Validation
 
-```typescript
+Use the component ref to validate the current input against the selected country.
+
+```tsx
+import React, { useRef } from 'react';
+import PhoneInput, { type PhoneInputRef } from 'rn-phone-input-field';
+
+const phoneInputRef = useRef<PhoneInputRef>(null);
+
+const isValid = phoneInputRef.current?.isValidNumber?.('1712345678') ?? false;
+```
+
+`isValidNumber` can validate a national number, a number with the selected calling code, or a number with a `+` prefix.
+
+## Custom Styling
+
+```tsx
 <PhoneInput
+  defaultCountry="GB"
+  placeholder="Mobile number"
+  placeholderColor="#6B7280"
   containerStyle={{
-    borderWidth: 1,
-    borderColor: '#e1e5e9',
+    borderColor: '#D1D5DB',
     borderRadius: 8,
-    paddingHorizontal: 12,
-  }}
-  textInputStyle={{
-    fontSize: 16,
-    color: '#2c3e50',
+    paddingHorizontal: 14,
   }}
   codeTextStyle={{
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#3498db',
+    color: '#111827',
+    fontWeight: '700',
   }}
-  placeholderColor="#95a5a6"
+  textInputStyle={{
+    color: '#111827',
+    fontSize: 16,
+  }}
 />
 ```
 
-### Form Integration
+## Dark Mode
 
-```typescript
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+```tsx
+<PhoneInput darkMode placeholder="Enter phone number" />
+```
 
-const validationSchema = Yup.object({
-  phone: Yup.string().required('Phone number is required'),
-});
+## TextInput Props
 
-const ContactForm = () => {
-  const phoneInputRef = useRef<PhoneInputRef>(null);
+Use `inputProps` for the phone number input and `searchInputProps` for the country picker search input.
 
-  return (
-    <Formik
-      initialValues={{ phone: '' }}
-      validationSchema={validationSchema}
-      onSubmit={(values) => {
-        const isValid = phoneInputRef.current?.isValidNumber(values.phone);
-        if (isValid) {
-          console.log('Valid phone:', values.phone);
-        }
-      }}
-    >
-      {({ handleSubmit, setFieldValue, values }) => (
-        <PhoneInput
-          ref={phoneInputRef}
-          defaultValue={values.phone}
-          onChangeText={(phone) => setFieldValue('phone', phone)}
-        />
-      )}
-    </Formik>
-  );
+```tsx
+<PhoneInput
+  inputProps={{
+    accessibilityLabel: 'Phone number',
+    returnKeyType: 'done',
+  }}
+  searchInputProps={{
+    placeholder: 'Search country',
+  }}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onChangeText` | `(value: string) => void` | `undefined` | Called with the sanitized phone number whenever the input changes. |
+| `onSelectCountryCode` | `(country: SelectedCountry) => void` | `undefined` | Called when the selected country changes. |
+| `defaultCountry` | `CountryCode` | `'US'` | Initial country, using an ISO country code such as `'US'`, `'BD'`, or `'GB'`. |
+| `defaultValue` | `string` | `''` | Initial phone number value. |
+| `containerStyle` | `StyleProp<ViewStyle>` | `undefined` | Style for the outer input container. |
+| `placeholder` | `string` | `undefined` | Phone input placeholder text. |
+| `placeholderColor` | `ColorValue` | `'#999'` | Placeholder text color. |
+| `inputProps` | `TextInputProps` | `undefined` | Props passed to the phone number `TextInput`. |
+| `textInputStyle` | `StyleProp<TextStyle>` | `undefined` | Style for the phone number text input. |
+| `downArrowIcon` | `React.ReactNode` | built-in icon | Custom country picker arrow icon. |
+| `iconContainerStyle` | `StyleProp<ViewStyle>` | `undefined` | Style for the country selector area. |
+| `codeTextStyle` | `StyleProp<TextStyle>` | `undefined` | Style for the calling code text. |
+| `darkMode` | `boolean` | `false` | Uses the built-in dark color set. |
+| `searchInputProps` | `TextInputProps` | `undefined` | Props passed to the country picker search input. |
+
+## Ref Methods
+
+| Method | Type | Description |
+| --- | --- | --- |
+| `isValidNumber` | `(value: string) => boolean` | Validates a phone number for the currently selected country. |
+| `onChangeText` | `(value: string) => void` | Programmatically updates the input value. |
+| `defaultCountry` | `(code: CountryCode) => void` | Programmatically changes the selected country. |
+| `defaultValue` | `(text: string) => void` | Programmatically applies a new default value. |
+
+## TypeScript
+
+```tsx
+import PhoneInput, {
+  type CountryCode,
+  type PhoneInputProps,
+  type PhoneInputRef,
+} from 'rn-phone-input-field';
+```
+
+`onSelectCountryCode` returns:
+
+```ts
+type SelectedCountry = {
+  countryCode: string;
+  callingCode: string;
 };
 ```
 
-## Performance Metrics
+## Example App
 
-| Metric         | rn-phone-input-field | Typical Alternatives      |
-| -------------- | -------------------- | ------------------------- |
-| Bundle Size    | **~15KB**            | ~1-3MB                    |
-| Dependencies   | **0**                | 3-8 packages              |
-| Install Time   | **Fast**             | Slower                    |
-| Security Audit | **Clean**            | Potential vulnerabilities |
+This repository includes a React Native example app in the `example` directory.
 
-## TypeScript Support
+```sh
+cd example
+npm install
+npm run android
+```
 
-Full TypeScript support is included out of the box with comprehensive type definitions for all props and methods.
+or:
 
-```typescript
-import { PhoneInput, PhoneInputRef, CountryCode } from 'rn-phone-input-field';
+```sh
+cd example
+npm install
+npm run ios
 ```
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT. See [LICENSE](LICENSE) for details.
 
 ## Support
 
-- 📧 **Email**: [mdtalukder.sohan@gmail.com](mailto:mdtalukder.sohan@gmail.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/sohantalukder/rn-phone-input-field/issues)
-- 💼 **Freelance Work**: Available for React/React Native projects
-
----
-
-<div align="center">
-
-**Built with ❤️ for the React Native community**
-
-[⭐ Star this repo](https://github.com/sohantalukder/rn-phone-input-field) if you found it helpful!
-
-</div>
+- Issues: [GitHub Issues](https://github.com/sohantalukder/rn-phone-input-field/issues)
+- Email: [mdtalukder.sohan@gmail.com](mailto:mdtalukder.sohan@gmail.com)
