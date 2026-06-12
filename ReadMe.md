@@ -6,7 +6,7 @@
 
 A lightweight React Native phone number input with a built-in country code picker, country-aware validation, TypeScript types, and no runtime dependencies.
 
-![PhoneInput](https://github.com/user-attachments/assets/6ecd0f96-7b34-4c81-9209-271bc51763e7)
+<img width="295" height="640" alt="Simulator Screen Recording - iPhone 17 Pro - 2026-06-12 at 20 09 52" src="https://github.com/user-attachments/assets/dfaf542b-8e97-42c9-b925-db7be5d18339" />
 
 ## Features
 
