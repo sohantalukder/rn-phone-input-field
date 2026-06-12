@@ -28,11 +28,7 @@ const BASE_STYLES = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   } satisfies FlexRowStyle,
-  gap10: {
-    gap: 10,
-  } satisfies GapStyle,
   ft28: {
     fontSize: 28,
   } satisfies FontSize28Style,
@@ -48,7 +44,6 @@ const createThemedStyles = (isDark: boolean) => {
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 16,
       borderWidth: 1,
       borderColor: colors.border,
       borderRadius: 10,
@@ -70,7 +65,6 @@ const styleCache = new Map<
   {
     container: ContainerStyle;
     flexRow: FlexRowStyle;
-    gap10: GapStyle;
     ft28: FontSize28Style;
     ft16: FontSize16Style;
     width75: WidthStyle;
@@ -79,8 +73,9 @@ const styleCache = new Map<
 
 const styles: Styles = (isDark: boolean) => {
   // Check cache first
-  if (styleCache.has(isDark)) {
-    return styleCache.get(isDark)!;
+  const cachedStyles = styleCache.get(isDark);
+  if (cachedStyles) {
+    return cachedStyles;
   }
 
   // Create and cache themed styles
@@ -88,7 +83,6 @@ const styles: Styles = (isDark: boolean) => {
   const combinedStyles = {
     container: themedStyles.container,
     flexRow: BASE_STYLES.flexRow,
-    gap10: BASE_STYLES.gap10,
     ft28: BASE_STYLES.ft28,
     ft16: themedStyles.ft16,
     width75: BASE_STYLES.width75,

@@ -17,11 +17,12 @@ module.exports = {
     },
     settings: {
         react: {
-            version: 'detect',
+            version: '18.3',
         },
     },
     rules: {
         'react/react-in-jsx-scope': 'off',
+        'react/prop-types': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-explicit-any': 'warn',
     },
@@ -30,4 +31,16 @@ module.exports = {
         node: true,
         es6: true,
     },
-}; 
+    overrides: [
+        {
+            files: ['__tests__/**/*.js'],
+            env: {
+                jest: true,
+                node: true,
+            },
+            rules: {
+                '@typescript-eslint/no-var-requires': 'off',
+            },
+        },
+    ],
+};

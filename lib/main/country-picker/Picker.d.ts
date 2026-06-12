@@ -46,7 +46,7 @@ interface EachOptionProps {
   /**
    * close modal for the each option
    */
-  closeModal: () => void;
+  closeModal?: () => void;
 }
 
 /**

@@ -1,4 +1,11 @@
-import React, { useState, useCallback, useMemo, memo, useRef } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  memo,
+  useRef,
+  useEffect,
+} from 'react';
 import {
   FlatList,
   Image,
@@ -9,14 +16,14 @@ import {
   ListRenderItem,
 } from 'react-native';
 import assets from '../assets/assets';
-import constants from '../constants/constants';
+import { getCountries } from '../constants/countryUtils';
 import type { EachOptionProps, PickerProps } from './Picker.d';
 import type { EachCountry } from '../constants/constants.d';
 import { customBorder, usePickerStyles } from './styles/picker.style';
 
 // Memoized country option component to prevent unnecessary re-renders
 const EachOption = memo<EachOptionProps>(
-  ({ onSelect, item, index, darkMode, closeModal }) => {
+  ({ onSelect, item, index, darkMode }) => {
     const styles = usePickerStyles(darkMode);
     const borderStyle = useMemo(
       () => customBorder(index, darkMode).border,
@@ -25,8 +32,7 @@ const EachOption = memo<EachOptionProps>(
 
     const handlePress = useCallback(() => {
       onSelect?.(item);
-      closeModal();
-    }, [onSelect, item, closeModal]);
+    }, [onSelect, item]);
 
     return (
       <TouchableOpacity
@@ -50,12 +56,12 @@ EachOption.displayName = 'EachOption';
 const Picker: React.FC<PickerProps> = memo(
   ({ onSelect, darkMode, closeModal, searchInputProps }) => {
     // Memoize initial country list to prevent recreation
-    const allCountries = useMemo(() => Object.values(constants), []);
+    const allCountries = useMemo(() => getCountries(), []);
 
     const [filteredCountries, setFilteredCountries] =
       useState<EachCountry[]>(allCountries);
     const [searchText, setSearchText] = useState('');
-    const searchTimeoutRef = useRef<NodeJS.Timeout>();
+    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
     // Get styles first
     const styles = usePickerStyles(darkMode);
@@ -96,6 +102,14 @@ const Picker: React.FC<PickerProps> = memo(
       [allCountries]
     );
 
+    useEffect(() => {
+      return () => {
+        if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+        }
+      };
+    }, []);
+
     // Memoized close icon to prevent recreation
     const closeIcon = useMemo(
       () => (
@@ -119,10 +133,9 @@ const Picker: React.FC<PickerProps> = memo(
           item={item}
           darkMode={darkMode}
           index={index}
-          closeModal={closeModal}
         />
       ),
-      [onSelect, darkMode, closeModal]
+      [onSelect, darkMode]
     );
 
     // Memoized key extractor
@@ -136,7 +149,7 @@ const Picker: React.FC<PickerProps> = memo(
       () => (
         <View style={memoizedStyles.emptyContainer}>
           <Text style={memoizedStyles.emptyText}>
-            No countries found for "{searchText}"
+            No countries found for {searchText}
           </Text>
         </View>
       ),

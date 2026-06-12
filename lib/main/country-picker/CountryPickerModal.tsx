@@ -15,7 +15,6 @@ import {
   StatusBar,
   TextInputProps,
   Platform,
-  ViewStyle,
 } from 'react-native';
 import { type EachCountry } from '../constants/constants.d';
 import Picker from './Picker';
@@ -26,12 +25,8 @@ const { height: screenHeight } = Dimensions.get('window');
 const statusBarHeight =
   Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
 
-// Animation configuration
-const ANIMATION_CONFIG = {
-  friction: 8,
-  tension: 50,
-  useNativeDriver: true,
-};
+const OPEN_DURATION = 260;
+const CLOSE_DURATION = 220;
 
 interface Props {
   darkMode: boolean;
@@ -43,44 +38,61 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
   ({ darkMode, onSelect, searchInputProps }, ref) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const animationValue = useRef(new Animated.Value(screenHeight)).current;
+    const translateY = useRef(new Animated.Value(screenHeight)).current;
+    const opacity = useRef(new Animated.Value(0)).current;
 
-    const animateToValue = useCallback(
-      (toValue: number, onComplete?: () => void) => {
-        Animated.spring(animationValue, {
-          ...ANIMATION_CONFIG,
-          toValue,
-        }).start(onComplete);
+    const animateModal = useCallback(
+      (toValue: number, toOpacity: number, duration: number, onComplete?: () => void) => {
+        Animated.parallel([
+          Animated.timing(translateY, {
+            toValue,
+            duration,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacity, {
+            toValue: toOpacity,
+            duration,
+            useNativeDriver: true,
+          }),
+        ]).start(({ finished }) => {
+          if (finished) {
+            onComplete?.();
+          }
+        });
       },
-      [animationValue]
+      [opacity, translateY]
     );
 
     const openModal = useCallback(() => {
+      if (isModalVisible || isAnimating) return;
+
+      translateY.setValue(screenHeight);
+      opacity.setValue(0);
       setIsModalVisible(true);
       setIsAnimating(true);
-      animateToValue(statusBarHeight, () => {
+      animateModal(statusBarHeight, 1, OPEN_DURATION, () => {
         setIsAnimating(false);
       });
-    }, [animateToValue]);
+    }, [animateModal, isAnimating, isModalVisible, opacity, translateY]);
 
     const closeModal = useCallback(() => {
-      if (isAnimating) return;
+      if (!isModalVisible || isAnimating) return;
 
       setIsAnimating(true);
-      animateToValue(screenHeight, () => {
+      animateModal(screenHeight, 0, CLOSE_DURATION, () => {
         requestAnimationFrame(() => {
           setIsModalVisible(false);
           setIsAnimating(false);
         });
       });
-    }, [isAnimating, animateToValue]);
+    }, [animateModal, isAnimating, isModalVisible]);
 
     const handleCountrySelect = useCallback(
       (country: EachCountry) => {
         onSelect(country);
         closeModal();
       },
-      [onSelect, closeModal]
+      [closeModal, onSelect]
     );
 
     useImperativeHandle(
@@ -94,24 +106,27 @@ const CountryPickerModal = forwardRef<PickerOpenRef, Props>(
     // Reset animation value when modal closes
     useEffect(() => {
       if (!isModalVisible) {
-        animationValue.setValue(screenHeight);
+        translateY.setValue(screenHeight);
+        opacity.setValue(0);
       }
-    }, [isModalVisible, animationValue]);
+    }, [isModalVisible, opacity, translateY]);
 
     // Cleanup animation on unmount
     useEffect(() => {
       return () => {
-        animationValue.stopAnimation();
+        translateY.stopAnimation();
+        opacity.stopAnimation();
       };
-    }, [animationValue]);
+    }, [opacity, translateY]);
 
     // Memoize animated style
-    const animatedStyle = useMemo<ViewStyle>(
+    const animatedStyle = useMemo(
       () => ({
         flex: 1,
-        transform: [{ translateY: animationValue }],
+        opacity,
+        transform: [{ translateY }],
       }),
-      [animationValue]
+      [opacity, translateY]
     );
 
     if (!isModalVisible) return null;

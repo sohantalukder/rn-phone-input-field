@@ -3,7 +3,6 @@ import type { DimensionValue } from 'react-native';
 export type ContainerStyle = {
   flexDirection: 'row';
   alignItems: 'center';
-  gap: number;
   borderWidth: number;
   borderColor: string;
   borderRadius: number;
@@ -16,7 +15,6 @@ export type ContainerStyle = {
 export type FlexRowStyle = {
   flexDirection: 'row';
   alignItems: 'center';
-  gap: number;
 };
 
 export type GapStyle = {
@@ -39,7 +37,6 @@ export type WidthStyle = {
 export type Styles = (isDark: boolean) => {
   container: ContainerStyle;
   flexRow: FlexRowStyle;
-  gap10: GapStyle;
   ft28: FontSize28Style;
   ft16: FontSize16Style;
   width75: WidthStyle;
